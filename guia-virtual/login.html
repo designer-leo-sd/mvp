@@ -34,38 +34,86 @@
     }
 
     /* ── Gradiente holográfico ──────────────────────────────── */
-    /* Sem border-radius — usa mask para transição suave para branco */
-    .gradient-bg {
+    /* Estrutura fiel ao Figma:
+       Container portrait 887×1344 → rotacionado -90° → visual 1344×887
+       Posicionado em left:-134px top:-150px (extravasa) */
+    .gradient-host {
       position: absolute;
-      inset: -20% 35% -20% -10%;       /* extravasa à esquerda e acima */
+      left: -9.3%;             /* ≈ -134px em 1440px */
+      top:  -14.6%;            /* ≈ -150px em 1024px */
+      width:  61.6%;           /* 887px */
+      height: 131.3%;          /* 1344px */
+      container-type: size;
       z-index: 0;
       pointer-events: none;
-      -webkit-mask-image: linear-gradient(to right,
-        black 0%, black 55%, transparent 85%);
-      mask-image: linear-gradient(to right,
-        black 0%, black 55%, transparent 85%);
     }
-    .gradient-bg::before {
+    .gradient-rotate {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Trocar largura/altura via rotate -90: o que era portrait vira landscape */
+      transform: rotate(-90deg);
+      width: 100%; height: 100%;
+    }
+    .gradient-rotate svg {
+      position: absolute;
+      width: 100%; height: 100%;
+      overflow: visible;
+    }
+
+    /* Fade suave para branco na borda direita do gradient */
+    .gradient-host::after {
       content: '';
       position: absolute;
       inset: 0;
-      background:
-        /* núcleo quente esquerdo */
-        radial-gradient(ellipse 70% 60% at 22% 42%,  rgba(230,100, 60,.92) 0%, transparent 52%),
-        /* canto superior frio */
-        radial-gradient(ellipse 65% 75% at 68% 12%,  rgba(175,200,250,.82) 0%, transparent 50%),
-        /* base quente */
-        radial-gradient(ellipse 85% 55% at 45% 95%,  rgba(245,170,140,.78) 0%, transparent 52%),
-        /* acento frio direito */
-        radial-gradient(ellipse 55% 50% at 92% 62%,  rgba(200,218,255,.68) 0%, transparent 48%),
-        /* fundo pêssego */
-        radial-gradient(ellipse 90% 90% at 40% 55%,  rgba(252,195,170,.50) 0%, transparent 60%),
-        linear-gradient(155deg, #f2b09a 0%, #d8e4f8 38%, #f8d0be 65%, #e4ecff 100%);
-      animation: holo 15s ease-in-out infinite alternate;
+      background: linear-gradient(to right, transparent 55%, white 88%);
+      pointer-events: none;
     }
-    @keyframes holo {
-      0%   { transform: scale(1)    rotate(0deg); }
-      100% { transform: scale(1.08) rotate(4deg); }
+
+    /* ── Animações dos blobs ─────────────────────────────────── */
+    /* Cada blob flutua de forma independente — velocidade e direção diferentes */
+    #gb1 { animation: gb1 18s ease-in-out infinite alternate; transform-origin: 832px 380px; }
+    #gb2 { animation: gb2 24s ease-in-out infinite alternate; transform-origin: 1087px 695px; }
+    #gb3 { animation: gb3 20s ease-in-out infinite alternate; transform-origin: 760px 775px; }
+    #go1 { animation: go1 15s ease-in-out infinite alternate; transform-origin: 430px 512px; }
+    #go2 { animation: go2 22s ease-in-out infinite alternate; transform-origin: 1213px 652px; }
+    #go3 { animation: go3 17s ease-in-out infinite alternate; transform-origin: 410px 918px; }
+
+    @keyframes gb1 {
+      0%   { transform: translate(0,0)      scale(1); }
+      33%  { transform: translate(60px,-40px) scale(1.08); }
+      66%  { transform: translate(-30px,55px) scale(0.95); }
+      100% { transform: translate(50px,30px)  scale(1.05); }
+    }
+    @keyframes gb2 {
+      0%   { transform: translate(0,0)        scale(1); }
+      33%  { transform: translate(-55px,45px) scale(0.92); }
+      66%  { transform: translate(65px,-35px) scale(1.10); }
+      100% { transform: translate(-40px,50px) scale(1.03); }
+    }
+    @keyframes gb3 {
+      0%   { transform: translate(0,0)         scale(1); }
+      50%  { transform: translate(45px,-60px)  scale(1.12); }
+      100% { transform: translate(-50px,40px)  scale(0.94); }
+    }
+    @keyframes go1 {
+      0%   { transform: translate(0,0)         scale(1); }
+      33%  { transform: translate(-50px,-45px) scale(1.10); }
+      66%  { transform: translate(55px,35px)   scale(0.93); }
+      100% { transform: translate(-35px,55px)  scale(1.07); }
+    }
+    @keyframes go2 {
+      0%   { transform: translate(0,0)         scale(1); }
+      33%  { transform: translate(60px,50px)   scale(0.90); }
+      66%  { transform: translate(-50px,-40px) scale(1.12); }
+      100% { transform: translate(40px,-55px)  scale(1.05); }
+    }
+    @keyframes go3 {
+      0%   { transform: translate(0,0)         scale(1); }
+      50%  { transform: translate(-60px,-50px) scale(1.15); }
+      100% { transform: translate(50px,45px)   scale(0.92); }
     }
 
     /* ── Card esquerdo ──────────────────────────────────────── */
@@ -324,8 +372,55 @@
 <body>
 <div class="page">
 
-  <!-- Gradiente holográfico (sem borda dura) -->
-  <div class="gradient-bg"></div>
+  <!-- Gradiente holográfico (SVG real do Figma, rotacionado -90° como em produção) -->
+  <div class="gradient-host">
+    <div class="gradient-rotate">
+      <svg viewBox="0 0 1686.4 1307.38" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+        <defs>
+          <filter id="fb0" x="472.702" y="-50" width="821.163" height="812" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="105"/>
+          </filter>
+          <filter id="fb1" x="491" y="291" width="1060" height="1024" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="105"/>
+          </filter>
+          <filter id="fb2" x="261" y="300" width="998" height="950" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="105"/>
+          </filter>
+          <filter id="fo0" x="-11" y="29" width="855" height="888" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="105"/>
+          </filter>
+          <filter id="fo1" x="689" y="165" width="997" height="930" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="105"/>
+          </filter>
+          <filter id="fo2" x="-50" y="477" width="920" height="880" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="105"/>
+          </filter>
+        </defs>
+
+        <!-- Blobs azuis (SENAI blue #164194) -->
+        <g id="gb1" filter="url(#fb0)">
+          <path d="M875.104 252.827C925.496 263.462 929.074 217.751 969.462 211.48C1112.94 189.202 1126.55 500.054 978.92 546.918C839.25 591.256 695.396 336.332 695.396 336.332C695.396 336.332 667.596 268.793 695.396 241.477C720.485 216.825 753.203 218.019 789.079 226.681C817.422 233.524 846.533 246.797 875.104 252.827Z" fill="#164194" fill-opacity="0.45"/>
+        </g>
+        <g id="gb2" filter="url(#fb1)">
+          <path d="M1034.33 614.415C1108.5 630.077 1113.77 562.76 1173.22 553.525C1384.41 520.717 1404.45 978.501 1187.14 1047.52C981.55 1112.81 769.799 737.391 769.799 737.391C769.799 737.391 728.877 637.928 769.799 597.7C806.729 561.396 854.889 563.154 907.698 575.911C949.419 585.989 992.27 605.536 1034.33 614.415Z" fill="#164194" fill-opacity="0.45"/>
+        </g>
+        <g id="gb3" filter="url(#fb2)">
+          <ellipse cx="760.025" cy="774.678" rx="238.524" ry="214.335" fill="#164194" fill-opacity="0.45"/>
+        </g>
+
+        <!-- Blobs laranja (#E84910) -->
+        <g id="go1" filter="url(#fo0)">
+          <path d="M270.091 464.945C248.005 524.397 238.342 569.702 270.091 625.489C331.99 734.252 553.671 733.393 617.393 625.489C667.758 540.203 594.231 471.656 540.713 387.945C517.099 351.008 510.975 320.227 469.587 299.588C376.971 253.404 303.695 374.486 270.091 464.945Z" fill="#E84910" fill-opacity="0.45"/>
+        </g>
+        <g id="go2" filter="url(#fo1)">
+          <path d="M1056.47 783.087C1107.83 845.147 1151.53 884.553 1233.06 885.046C1392.03 886.007 1531.92 641.529 1453.71 502.883C1391.89 393.299 1269.78 430.674 1143.69 436.4C1088.06 438.927 1050.31 426.117 1001.32 458.552C891.675 531.134 978.311 688.662 1056.47 783.087Z" fill="#E84910" fill-opacity="0.45"/>
+        </g>
+        <g id="go3" filter="url(#fo2)">
+          <ellipse cx="410.021" cy="917.582" rx="199.682" ry="179.461" fill="#E84910" fill-opacity="0.45"/>
+        </g>
+      </svg>
+    </div>
+  </div>
 
   <!-- Card esquerdo -->
   <div class="left-card">
