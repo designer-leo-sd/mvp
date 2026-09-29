@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Guia Virtual SENAI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --font: 'Open Sans', sans-serif;
+      --primary:   #e84910;
+      --primary-d: #bf340f;
+      --text-900:  #383e41;
+      --text-800:  #3d4448;
+      --text-700:  #475157;
+      --text-500:  #617379;
+      --border:    #e4e8e9;
+      --border-200:#cbd4d6;
+      --r-xs: 8px;
+      --r-sm: 12px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font);
+      background: white;
+      overflow: hidden;
+    }
+
+    /* ── Layout raiz ───────────────────────────────────────────── */
+    .page {
+      display: grid;
+      grid-template-columns: 470px 1fr;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* ── Painel esquerdo — gradiente holográfico ─────────────── */
+    .panel-left {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Gradiente CSS fiel ao Figma */
+    .panel-left::before {
+      content: '';
+      position: absolute;
+      inset: -20% -20% -20% -20%;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 45%, rgba(237,137,110,.85) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 80% at 70% 15%, rgba(185,200,240,.75) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 70% at 50% 90%, rgba(245,185,160,.70) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 60% at 90% 60%, rgba(200,215,255,.60) 0%, transparent 50%),
+        linear-gradient(145deg, #f7cfc0 0%, #dde7f8 45%, #f9ddd3 75%, #e8eeff 100%);
+      animation: gradientShift 12s ease-in-out infinite alternate;
+    }
+    @keyframes gradientShift {
+      0%   { transform: scale(1)    rotate(0deg); }
+      100% { transform: scale(1.06) rotate(3deg); }
+    }
+
+    /* Card principal esquerdo (frosted glass) */
+    .left-card {
+      position: absolute;
+      inset: 40px 24px 40px 32px;
+      background: rgba(255,255,255,.30);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.50);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 56px 28px 28px;
+      z-index: 1;
+    }
+
+    .left-headline {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text-700);
+    }
+    .left-sub {
+      margin-top: 12px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--text-800);
+    }
+
+    /* Card da Nai (bottom) */
+    .nai-card {
+      background: rgba(255,255,255,.52);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+    }
+    .nai-img-wrap {
+      width: 120px;
+      height: 136px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+      flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .nai-img-wrap img {
+      position: absolute;
+      width: 210%;
+      left: -46%;
+      top: -60px;
+    }
+    .nai-text { flex: 1; display: flex; flex-direction: column; justify-content: space-between; height: 136px; }
+    .nai-desc {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--text-800);
+    }
+    .nai-name { font-size: 15px; font-weight: 700; color: var(--text-800); margin-top: 10px; }
+    .nai-role { font-size: 12px; color: var(--text-500); }
+    .nai-role strong { font-weight: 700; color: var(--text-800); }
+
+    /* ── Painel direito — formulário ────────────────────────── */
+    .panel-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 60px;
+      position: relative;
+      background: white;
+    }
+
+    .form-wrap {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* Título do formulário */
+    .form-headline {
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--text-900);
+      margin-bottom: 4px;
+    }
+    .form-headline strong { font-weight: 700; }
+    .form-sub {
+      font-size: 15px;
+      color: var(--text-800);
+      line-height: 1.55;
+      margin-bottom: 32px;
+    }
+
+    /* Inputs */
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field-label {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 13.5px; font-weight: 600; color: var(--text-900);
+    }
+    .field-label .req { color: #c11414; font-size: 12px; }
+
+    .field-input {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,.70);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 11px 15px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .field-input:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(232,73,16,.12);
+    }
+    .field-input input {
+      flex: 1; border: none; outline: none; background: transparent;
+      font-family: var(--font); font-size: 14px; color: var(--text-900);
+    }
+    .field-input input::placeholder { color: #9aa6ab; }
+    .field-input button {
+      background: none; border: none; cursor: pointer; padding: 0; line-height: 0;
+      color: #9aa6ab;
+    }
+    .field-input button .material-symbols-rounded { font-size: 20px; }
+    .field-input button:hover { color: var(--text-700); }
+
+    .fields-gap { display: flex; flex-direction: column; gap: 12px; }
+
+    /* Row: checkbox + esqueceu a senha */
+    .row-opts {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 4px;
+    }
+    .checkbox-label {
+      display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px;
+      border-radius: var(--r-xs);
+    }
+    .checkbox-label input[type=checkbox] { display: none; }
+    .cb-box {
+      width: 20px; height: 20px; border-radius: var(--r-xs); flex-shrink: 0;
+      border: 1.5px solid var(--border-200); background: white;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .15s, background .15s;
+    }
+    .checkbox-label:hover .cb-box { border-color: var(--primary); }
+    .checkbox-label input:checked + .cb-box {
+      background: var(--primary); border-color: var(--primary);
+    }
+    .checkbox-label input:checked + .cb-box::after {
+      content: ''; width: 10px; height: 6px;
+      border-left: 2px solid white; border-bottom: 2px solid white;
+      transform: rotate(-45deg) translateY(-1px);
+    }
+    .cb-lbl { font-size: 13px; color: var(--text-900); }
+
+    .link-forgot {
+      font-size: 12px; color: var(--text-900); background: none; border: none;
+      cursor: pointer; font-family: var(--font); text-decoration: none;
+      white-space: nowrap;
+    }
+    .link-forgot:hover { text-decoration: underline; }
+
+    /* Botões */
+    .btn-primary {
+      width: 100%; height: 48px; border-radius: var(--r-sm);
+      background: var(--primary-d); border: none; cursor: pointer;
+      font-family: var(--font); font-size: 16px; font-weight: 600;
+      color: white; letter-spacing: .01em;
+      transition: background .15s, transform .1s;
+    }
+    .btn-primary:hover  { background: #a82d0d; }
+    .btn-primary:active { transform: scale(.98); }
+
+    .btn-ghost {
+      width: 100%; height: 44px; border-radius: var(--r-sm);
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font); font-size: 15px; color: var(--text-900);
+      display: flex; align-items: center; justify-content: center; gap: 0;
+    }
+    .btn-ghost span { color: var(--primary-d); font-weight: 600; }
+    .btn-ghost:hover span { text-decoration: underline; }
+
+    .btns-gap { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+
+    /* Seta voltar */
+    .btn-back {
+      position: absolute; top: 44px; left: 40px; width: 36px; height: 36px;
+      border-radius: 50%; border: 1px solid var(--border);
+      background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text-700); text-decoration: none; transition: background .15s;
+    }
+    .btn-back:hover { background: #f4f6f7; }
+    .btn-back .material-symbols-rounded { font-size: 20px; }
+
+    /* Logo SENAI */
+    .logo-wrap {
+      position: absolute; top: 44px; right: 44px;
+      display: flex; align-items: center;
+    }
+    .logo-senai { height: 18px; }
+
+    /* Divisor */
+    .form-divider { height: 1px; background: var(--border); margin: 4px 0; }
+
+    /* Responsivo simples */
+    @media (max-width: 860px) {
+      .page { grid-template-columns: 1fr; }
+      .panel-left { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Painel esquerdo ─────────────────────────────────────── -->
+  <div class="panel-left">
+    <div class="left-card">
+      <div>
+        <h1 class="left-headline">Quer descobrir<br>algo novo?</h1>
+        <p class="left-sub">Cadastre-se para aprender à sua maneira,<br>evoluir suas habilidades e explorar<br>oportunidades incríveis.</p>
+      </div>
+
+      <!-- Card Nai -->
+      <div class="nai-card">
+        <div class="nai-img-wrap">
+          <img
+            src="https://www.figma.com/api/mcp/asset/31046626-5629-426b-aa84-ccd87dcb4485.png"
+            alt="Nai — Inteligência Artificial do SENAI"
+          >
+        </div>
+        <div class="nai-text">
+          <p class="nai-desc">Tornando o dia a dia mais simples e leve! Estou pronta para organizar, esclarecer e oferecer suporte, para que você possa focar no que realmente importa.</p>
+          <div>
+            <p class="nai-name">Nai</p>
+            <p class="nai-role">Inteligência Artificial do <strong>SENAI</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Painel direito ──────────────────────────────────────── -->
+  <div class="panel-right">
+
+    <!-- Voltar -->
+    <a href="#" class="btn-back" aria-label="Voltar">
+      <span class="material-symbols-rounded">arrow_back</span>
+    </a>
+
+    <!-- Logo SENAI -->
+    <div class="logo-wrap">
+      <svg class="logo-senai" viewBox="0 0 73 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text y="14" font-family="Arial, sans-serif" font-size="16" font-weight="900" letter-spacing="1">
+          <tspan fill="#003DA5">SEN</tspan><tspan fill="#E30613">AI</tspan>
+        </text>
+      </svg>
+    </div>
+
+    <!-- Formulário -->
+    <div class="form-wrap">
+      <h2 class="form-headline">Seu próximo passo<br><strong>começa aqui</strong></h2>
+      <p class="form-sub">Acesse sua conta e continue sua jornada de aprendizado e descobertas.</p>
+
+      <div class="fields-gap">
+
+        <!-- Email / CPF -->
+        <div class="field">
+          <div class="field-label">
+            E-mail ou CPF <span class="req">*</span>
+          </div>
+          <div class="field-input">
+            <input type="text" placeholder="Digite seu e-mail ou CPF" autocomplete="username">
+          </div>
+        </div>
+
+        <!-- Senha -->
+        <div class="field">
+          <div class="field-label">
+            Senha <span class="req">*</span>
+          </div>
+          <div class="field-input">
+            <input type="password" id="pwd" placeholder="Digite sua senha" autocomplete="current-password">
+            <button type="button" onclick="togglePwd()" aria-label="Mostrar/ocultar senha">
+              <span class="material-symbols-rounded" id="pwd-icon">visibility_off</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Lembre-me + Esqueceu -->
+        <div class="row-opts">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember">
+            <span class="cb-box"></span>
+            <span class="cb-lbl">Lembre-se de mim neste dispositivo!</span>
+          </label>
+          <a href="#" class="link-forgot">Esqueceu a senha?</a>
+        </div>
+
+      </div>
+
+      <!-- Ações -->
+      <div class="btns-gap" style="margin-top:28px">
+        <button type="button" class="btn-primary" onclick="handleLogin()">Entrar</button>
+        <button type="button" class="btn-ghost">
+          Não tem uma conta?&nbsp;<span>Clique aqui</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function togglePwd() {
+    const inp  = document.getElementById('pwd');
+    const ico  = document.getElementById('pwd-icon');
+    const show = inp.type === 'password';
+    inp.type   = show ? 'text' : 'password';
+    ico.textContent = show ? 'visibility' : 'visibility_off';
+  }
+
+  function handleLogin() {
+    const btn = document.querySelector('.btn-primary');
+    btn.textContent = 'Entrando...';
+    btn.disabled = true;
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 900);
+  }
+</script>
+</body>
+</html>
