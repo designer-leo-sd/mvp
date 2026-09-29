@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login — Guia Virtual SENAI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --font:      'Open Sans', sans-serif;
-      --primary:   #e84910;
       --primary-d: #bf340f;
       --text-950:  #22272a;
       --text-900:  #383e41;
@@ -24,81 +23,75 @@
       --r-sm: 12px;
     }
 
-    html, body {
-      height: 100%; width: 100%;
-      font-family: var(--font);
-      background: white;
-      overflow: hidden;
-    }
+    html, body { height: 100%; font-family: var(--font); background: white; overflow: hidden; }
 
-    /* ═══════════════════════════════════════════
-       PAGE — posicionamento absoluto fiel ao Figma
-       Viewport: 1440 × 1024 referência
-    ═══════════════════════════════════════════ */
+    /* ── Página ─────────────────────────────────────────────── */
     .page {
       position: relative;
-      width: 100vw;
-      height: 100vh;
+      width: 100vw; height: 100vh;
       background: white;
       overflow: hidden;
     }
 
-    /* ── Gradiente holográfico ─────────────────────────────── */
-    /* O gradiente no Figma começa em left:-134px e tem 887px de largura.
-       Em 1440px isso ocupa aprox. 0→753px (52% visible). Reproduzimos com % */
+    /* ── Gradiente holográfico ──────────────────────────────── */
+    /* Sem border-radius — usa mask para transição suave para branco */
     .gradient-bg {
       position: absolute;
-      left: -9%;
-      top: -15%;
-      width: 62%;
-      height: 130%;
-      pointer-events: none;
+      inset: -20% 35% -20% -10%;       /* extravasa à esquerda e acima */
       z-index: 0;
-      border-radius: 0 40% 40% 0 / 0 30% 30% 0;
-      overflow: hidden;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(to right,
+        black 0%, black 55%, transparent 85%);
+      mask-image: linear-gradient(to right,
+        black 0%, black 55%, transparent 85%);
     }
     .gradient-bg::before {
       content: '';
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 75% 65% at 18% 40%,  rgba(232,110, 70,.90) 0%, transparent 55%),
-        radial-gradient(ellipse 65% 80% at 72% 18%,  rgba(175,200,245,.80) 0%, transparent 52%),
-        radial-gradient(ellipse 90% 60% at 48% 92%,  rgba(245,175,148,.75) 0%, transparent 55%),
-        radial-gradient(ellipse 55% 55% at 88% 65%,  rgba(195,215,255,.65) 0%, transparent 48%),
-        radial-gradient(ellipse 80% 80% at 35% 70%,  rgba(255,200,180,.55) 0%, transparent 55%),
-        linear-gradient(145deg, #f0b8a0 0%, #dde8fa 40%, #f5d5c5 68%, #e5edff 100%);
-      animation: holo 14s ease-in-out infinite alternate;
+        /* núcleo quente esquerdo */
+        radial-gradient(ellipse 70% 60% at 22% 42%,  rgba(230,100, 60,.92) 0%, transparent 52%),
+        /* canto superior frio */
+        radial-gradient(ellipse 65% 75% at 68% 12%,  rgba(175,200,250,.82) 0%, transparent 50%),
+        /* base quente */
+        radial-gradient(ellipse 85% 55% at 45% 95%,  rgba(245,170,140,.78) 0%, transparent 52%),
+        /* acento frio direito */
+        radial-gradient(ellipse 55% 50% at 92% 62%,  rgba(200,218,255,.68) 0%, transparent 48%),
+        /* fundo pêssego */
+        radial-gradient(ellipse 90% 90% at 40% 55%,  rgba(252,195,170,.50) 0%, transparent 60%),
+        linear-gradient(155deg, #f2b09a 0%, #d8e4f8 38%, #f8d0be 65%, #e4ecff 100%);
+      animation: holo 15s ease-in-out infinite alternate;
     }
     @keyframes holo {
       0%   { transform: scale(1)    rotate(0deg); }
-      100% { transform: scale(1.07) rotate(4deg); }
+      100% { transform: scale(1.08) rotate(4deg); }
     }
 
-    /* ── Card esquerdo (frosted glass) ────────────────────── */
-    /* Figma: left=162px top=48px w=432px h=928px (de 1024px total) */
+    /* ── Card esquerdo ──────────────────────────────────────── */
     .left-card {
       position: absolute;
-      left: clamp(24px, 11.25%, 162px);
-      top: 48px;
+      left:   clamp(20px, 11.2%, 162px);
+      top:    48px;
       bottom: 48px;
-      width: clamp(300px, 30%, 432px);
+      width:  clamp(280px, 30%, 432px);
       background: rgba(255,255,255,.30);
-      backdrop-filter: blur(16px) saturate(1.4);
-      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      backdrop-filter: blur(18px) saturate(1.5);
+      -webkit-backdrop-filter: blur(18px) saturate(1.5);
       border-radius: 24px;
       border: 1px solid rgba(255,255,255,.55);
       box-shadow: 0 8px 40px rgba(0,0,0,.06);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: clamp(48px,14%,192px) 28px 28px;
+      /* padding-top espelho do Figma: 192px de 924px total = ~21% */
+      padding: clamp(56px, 19%, 192px) 28px 28px;
       z-index: 2;
+      overflow: hidden; /* clip lateral, mas não afeta o Nai que vai acima */
     }
 
-    .left-text {}
     .left-headline {
-      font-size: clamp(26px,2.4vw,34px);
+      font-size: clamp(24px,2.4vw,34px);
       font-weight: 700;
       line-height: 1.3;
       color: var(--text-700);
@@ -106,84 +99,88 @@
     }
     .left-sub {
       margin-top: 14px;
-      font-size: clamp(14px,1.25vw,18px);
-      font-weight: 400;
+      font-size: clamp(13px,1.25vw,18px);
       line-height: 1.6;
       color: var(--text-800);
     }
 
-    /* Card da Nai */
+    /* ── Card Nai ────────────────────────────────────────────── */
     .nai-card {
-      background: rgba(255,255,255,.50);
-      border-radius: 16px;
-      padding: 20px 20px 20px 16px;
+      background: rgba(255,255,255,.52);
+      border-radius: 14px;
+      padding: 20px 18px 20px 16px;
       display: flex;
       align-items: flex-end;
-      gap: 16px;
-      overflow: hidden;
+      gap: 14px;
+      position: relative;
+      overflow: visible; /* permite a Nai vazar para cima */
     }
+
+    /* Wrapper da imagem: a Nai vaza acima do card, igual ao Figma */
     .nai-img-wrap {
       position: relative;
-      width: 136px;
-      height: 150px;
+      width: 130px;
+      height: 140px;
       flex-shrink: 0;
-      background: rgba(255,255,255,.72);
       border-radius: 8px;
-      overflow: hidden;
+      overflow: visible; /* deixa a cabeça vazar para cima */
     }
-    .nai-img-wrap img {
+    /* Container interno alinhado à base (como no Figma) */
+    .nai-img-inner {
+      position: absolute;
+      width: 152px;
+      height: 243px;
+      left: -5px;
+      bottom: 0;               /* ancora pela base, não pelo topo */
+    }
+    .nai-img-inner img {
       position: absolute;
       width: 204%;
       left: -48%;
-      top: -93px;
+      top: 0;
       max-width: none;
+      object-fit: cover;
     }
+    /* Fundo semi-transparente apenas na área visível do card */
+    .nai-img-bg {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,.72);
+      border-radius: 8px;
+      z-index: -1;
+    }
+
     .nai-body {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 150px;
+      height: 140px;
       min-width: 0;
     }
-    .nai-desc {
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--text-800);
-    }
-    .nai-footer {}
-    .nai-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text-800);
-      margin-bottom: 1px;
-    }
-    .nai-role {
-      font-size: 12px;
-      color: var(--text-500);
-    }
+    .nai-desc { font-size: 12px; line-height: 1.65; color: var(--text-800); }
+    .nai-name { font-size: 15px; font-weight: 700; color: var(--text-800); margin-bottom: 1px; }
+    .nai-role { font-size: 12px; color: var(--text-500); }
     .nai-role b { font-weight: 700; color: var(--text-800); }
 
-    /* ── Formulário direito ───────────────────────────────── */
-    /* Figma: left=846px, top=50%, transform translateY(-50%) w=432px */
+    /* ── Formulário direito ─────────────────────────────────── */
     .form-area {
       position: absolute;
-      right: clamp(40px, 6%, 90px);
-      top: 50%;
+      right:  clamp(40px,6%,90px);
+      top:    50%;
       transform: translateY(-50%);
-      width: clamp(320px, 30%, 432px);
+      width:  clamp(300px,30%,432px);
       z-index: 2;
     }
 
     .form-headline {
-      font-size: clamp(26px,2.4vw,34px);
+      font-size: clamp(24px,2.4vw,34px);
       font-weight: 400;
       line-height: 1.35;
       color: var(--text-900);
       margin-bottom: 8px;
     }
     .form-headline b { font-weight: 700; }
-
     .form-sub {
       font-size: 15px;
       color: var(--text-950);
@@ -192,44 +189,42 @@
     }
 
     /* Campos */
-    .fields { display: flex; flex-direction: column; gap: 12px; }
+    .fields { display: flex; flex-direction: column; gap: 14px; }
     .field  { display: flex; flex-direction: column; gap: 5px; }
     .field-label {
       display: flex; align-items: center; gap: 3px;
       font-size: 13.5px; font-weight: 600; color: var(--text-900);
     }
-    .req { color: #c11414; font-size: 12px; margin-left: 1px; }
+    .req { color: #c11414; font-size: 12px; }
 
     .input-wrap {
       display: flex; align-items: center; gap: 10px;
-      background: rgba(255,255,255,.70);
       border: 1px solid var(--border);
       border-radius: var(--r-sm);
       padding: 12px 14px;
+      background: white;
       transition: border-color .15s, box-shadow .15s;
     }
     .input-wrap:focus-within {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(232,73,16,.12);
+      border-color: #bf340f;
+      box-shadow: 0 0 0 3px rgba(191,52,15,.10);
     }
     .input-wrap input {
       flex: 1; border: none; outline: none; background: transparent;
       font-family: var(--font); font-size: 14px; color: var(--text-900);
-      line-height: 1.45;
     }
     .input-wrap input::placeholder { color: #a5b0b4; }
     .input-wrap .ico-btn {
-      background: none; border: none; cursor: pointer; padding: 0;
+      background: none; border: none; cursor: pointer;
       color: #9aa6ab; display: flex; align-items: center;
-      transition: color .12s;
+      transition: color .12s; padding: 0;
     }
     .input-wrap .ico-btn:hover { color: var(--text-700); }
     .input-wrap .ico-btn .material-symbols-rounded { font-size: 18px; }
 
-    /* Linha: lembre-me + esqueceu a senha */
+    /* Lembre-me + esqueceu */
     .row-extras {
       display: flex; align-items: center; justify-content: space-between;
-      margin-top: 4px;
     }
     .cb-label {
       display: flex; align-items: center; gap: 8px;
@@ -243,133 +238,122 @@
       background: white; display: flex; align-items: center; justify-content: center;
       transition: all .15s;
     }
-    .cb-label:hover .cb-box { border-color: var(--primary); }
+    .cb-label:hover .cb-box { border-color: var(--primary-d); }
     .cb-label input:checked ~ .cb-box {
-      background: var(--primary); border-color: var(--primary);
+      background: var(--primary-d); border-color: var(--primary-d);
     }
     .cb-label input:checked ~ .cb-box::after {
       content: ''; width: 10px; height: 6px;
       border-left: 2.5px solid white; border-bottom: 2.5px solid white;
       transform: rotate(-45deg) translateY(-1px);
     }
-    .cb-text { font-size: 13px; color: var(--text-900); line-height: 1.4; }
-
+    .cb-text { font-size: 13px; color: var(--text-900); }
     .link-forgot {
       font-size: 12px; color: var(--text-950);
-      background: none; border: none; cursor: pointer; white-space: nowrap;
-      font-family: var(--font); text-decoration: none;
-      padding: 4px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font); text-decoration: none; white-space: nowrap; padding: 4px;
     }
     .link-forgot:hover { text-decoration: underline; }
 
     /* Botões */
-    .btn-primary {
+    .actions { display: flex; flex-direction: column; gap: 8px; margin-top: 32px; }
+
+    .btn-entrar {
       width: 100%; height: 48px;
       background: var(--primary-d);
       border: none; border-radius: var(--r-sm);
       color: white; font-family: var(--font);
       font-size: 16px; font-weight: 600; cursor: pointer;
-      letter-spacing: .015em;
-      transition: background .15s, transform .1s;
       display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background .15s, transform .1s;
     }
-    .btn-primary:hover  { background: #a52c0e; }
-    .btn-primary:active { transform: scale(.98); }
-    .btn-primary:disabled { opacity: .72; cursor: not-allowed; }
+    .btn-entrar:hover  { background: #a52c0e; }
+    .btn-entrar:active { transform: scale(.98); }
+    .btn-entrar:disabled { opacity: .7; cursor: not-allowed; }
 
-    .btn-ghost {
-      width: 100%; height: 44px;
+    .btn-cadastro {
+      width: 100%; padding: 10px;
       background: none; border: none; border-radius: var(--r-sm);
-      font-family: var(--font); font-size: 15px; color: var(--text-900);
+      font-family: var(--font); font-size: 14.5px; color: var(--text-900);
       cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
-    .btn-ghost .link-txt { color: var(--primary-d); font-weight: 600; }
-    .btn-ghost:hover .link-txt { text-decoration: underline; }
+    .btn-cadastro .lnk { color: var(--primary-d); font-weight: 600; }
+    .btn-cadastro:hover .lnk { text-decoration: underline; }
 
-    .actions { display: flex; flex-direction: column; gap: 6px; margin-top: 32px; }
+    /* Spinner inline */
+    .spin {
+      width: 18px; height: 18px; display: none;
+      border: 2.5px solid rgba(255,255,255,.35);
+      border-top-color: white; border-radius: 50%;
+      animation: rot .65s linear infinite;
+    }
+    @keyframes rot { to { transform: rotate(360deg); } }
 
     /* Voltar */
     .btn-back {
-      position: absolute;
-      top: 46px; left: 48px;
-      width: 36px; height: 36px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      background: white;
+      position: absolute; top: 46px; left: 48px;
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid var(--border); background: white;
       display: flex; align-items: center; justify-content: center;
-      color: var(--text-700); cursor: pointer;
-      text-decoration: none;
-      transition: background .12s, box-shadow .12s;
-      z-index: 10;
+      color: var(--text-700); cursor: pointer; text-decoration: none;
+      transition: background .12s; z-index: 10;
     }
-    .btn-back:hover { background: #f2f4f5; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+    .btn-back:hover { background: #f2f4f5; }
     .btn-back .material-symbols-rounded { font-size: 20px; }
 
-    /* Logo SENAI */
-    .logo {
-      position: absolute;
-      top: 46px; right: 48px;
-      z-index: 10;
-      display: flex; align-items: center;
+    /* Logo */
+    .logo-wrap {
+      position: absolute; top: 46px; right: 48px;
+      z-index: 10; display: flex; align-items: center;
     }
-    .logo-svg { height: 17px; }
+    .logo-svg { width: auto; height: 20px; }
 
-    /* ── Loader / Spinner no botão ─────────────────────────── */
-    .spinner-ring {
-      width: 18px; height: 18px;
-      border: 2.5px solid rgba(255,255,255,.4);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      display: none;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Responsivo ────────────────────────────────────────── */
+    /* Responsivo */
     @media (max-width: 800px) {
       .gradient-bg, .left-card { display: none; }
       .form-area {
-        position: relative;
-        right: auto; top: auto; transform: none;
-        width: 100%; max-width: 440px;
-        margin: 0 auto;
-        padding: 80px 24px 40px;
+        position: relative; right: auto; top: auto; transform: none;
+        width: 100%; max-width: 440px; margin: 0 auto; padding: 80px 24px 40px;
       }
       .page { overflow-y: auto; display: flex; align-items: flex-start; }
       .btn-back { left: 20px; }
-      .logo { right: 20px; }
+      .logo-wrap { right: 20px; }
     }
   </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- Gradiente holográfico -->
+  <!-- Gradiente holográfico (sem borda dura) -->
   <div class="gradient-bg"></div>
 
-  <!-- ── Card esquerdo ─────────────────────────────────── -->
+  <!-- Card esquerdo -->
   <div class="left-card">
-    <div class="left-text">
+    <div>
       <h1 class="left-headline">Quer descobrir<br>algo novo?</h1>
       <p class="left-sub">
-        Cadastre-se para aprender à sua maneira,<br>
-        evoluir suas habilidades e explorar<br>
+        Cadastre-se para aprender à sua maneira,
+        evoluir suas habilidades e explorar
         oportunidades incríveis.
       </p>
     </div>
 
+    <!-- Card da Nai -->
     <div class="nai-card">
       <div class="nai-img-wrap">
-        <img
-          src="https://www.figma.com/api/mcp/asset/31046626-5629-426b-aa84-ccd87dcb4485.png"
-          alt="Nai"
-        >
+        <div class="nai-img-bg"></div>
+        <div class="nai-img-inner">
+          <img
+            src="https://www.figma.com/api/mcp/asset/31046626-5629-426b-aa84-ccd87dcb4485.png"
+            alt="Nai"
+          >
+        </div>
       </div>
       <div class="nai-body">
         <p class="nai-desc">
           Tornando o dia a dia mais simples e leve! Estou pronta para organizar, esclarecer e oferecer suporte, para que você possa focar no que realmente importa.
         </p>
-        <div class="nai-footer">
+        <div>
           <p class="nai-name">Nai</p>
           <p class="nai-role">Inteligência Artificial do <b>SENAI</b></p>
         </div>
@@ -377,57 +361,46 @@
     </div>
   </div>
 
-  <!-- ── Voltar ─────────────────────────────────────────── -->
+  <!-- Botão voltar -->
   <a href="#" class="btn-back" aria-label="Voltar">
     <span class="material-symbols-rounded">arrow_back</span>
   </a>
 
-  <!-- ── Logo SENAI ────────────────────────────────────── -->
-  <div class="logo" aria-label="SENAI">
-    <svg class="logo-svg" viewBox="0 0 76 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <text y="15" font-family="'Arial Black', Arial, sans-serif" font-size="17" font-weight="900" letter-spacing="1.5">
-        <tspan fill="#003DA5">SEN</tspan><tspan fill="#E30613">AI</tspan>
-      </text>
+  <!-- Logo SENAI (SVG original do Figma) -->
+  <div class="logo-wrap" aria-label="SENAI">
+    <svg class="logo-svg" preserveAspectRatio="xMidYMid meet" overflow="visible" viewBox="0 0 72 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14.1067 0.98362L13.5899 3.77419C13.5449 4.0201 13.3539 4.19652 13.0955 4.19652H13.0506C12.1124 4.12702 9.46629 3.90784 7.7809 3.90784C7.1236 3.90784 6.44382 4.10564 6.44382 4.84338C6.44382 5.15344 6.67978 5.35658 7.47191 5.80564L10.3315 7.40942C12.0169 8.34495 12.6742 9.57452 12.6742 11.1355C12.6742 15.3053 8.99438 17 5.01685 17C3.09551 17 1.59551 16.7541 0.398876 16.4173C0.191011 16.3478 0 16.2355 0 16.0377V15.9682L0.494382 13.2311C0.539326 12.9852 0.752809 12.7874 1.03371 12.7874H1.07865C2.03371 12.8729 4.52247 13.1242 5.75843 13.1242C6.69663 13.1242 7.47191 12.8141 7.47191 11.8091C7.47191 11.4723 7.23596 11.2264 6.5618 10.8041L3.53933 8.90628C2.17978 8.05627 1.52809 6.60753 1.52809 5.22294C1.52809 1.20815 4.83146 0.00531603 8.55618 0.00531603C10.4045 0.00531603 12.8427 0.293996 13.7584 0.561292C13.9494 0.630789 14.1124 0.716324 14.1124 0.919469V0.988966H14.1067V0.98362Z" fill="#164194"/>
+      <path d="M27.6631 0.711008L27.1687 3.43208C27.1238 3.67799 26.8653 3.87579 26.6069 3.87579H21.8709C21.0226 3.87579 20.6968 4.14309 20.5339 4.99309L20.2305 6.6236H25.9945C26.2305 6.6236 26.3934 6.77863 26.3934 7.00316V7.07265L25.899 9.70285C25.8541 9.94876 25.6181 10.1466 25.3597 10.1466H19.5957L19.2417 12.0016C19.2136 12.1834 19.1968 12.3117 19.1968 12.4453C19.1968 12.9585 19.4777 13.1135 20.1518 13.1135H24.8878C25.1238 13.1135 25.2867 13.2686 25.2867 13.4931V13.5626L24.7698 16.2837C24.7249 16.551 24.5339 16.6846 24.2305 16.7274C23.3204 16.8397 21.8878 16.9947 19.6125 16.9947C16.8709 16.9947 14.3653 16.0591 14.3653 13.1403C14.3653 12.7821 14.4103 12.4025 14.4833 12.0069L15.7754 5.00913C16.6013 0.491825 19.4159 0 22.7193 0C24.9945 0 26.4159 0.155032 27.2867 0.267296C27.5451 0.294026 27.6631 0.40629 27.6631 0.625473V0.711008Z" fill="#164194"/>
+      <path d="M46.2403 0.465983L43.2732 16.1504C43.1784 16.6055 42.681 16.9947 42.1894 16.9947H39.1275C38.6834 16.9947 38.4109 16.8083 38.2155 16.3807L34.5614 8.72211C34.4844 8.56313 34.4074 8.53572 34.3422 8.53572C34.2771 8.53572 34.2179 8.57957 34.1942 8.73856L32.7136 16.5342C32.6662 16.7864 32.3938 16.9892 32.1213 16.9892H28.4139C28.1652 16.9892 27.9934 16.8302 27.9934 16.6V16.5287L30.9546 0.844252C31.0494 0.389233 31.5469 0 32.0384 0H35.0529C35.5208 0 35.7162 0.274108 35.9176 0.663341L39.6724 8.55216C39.7494 8.71115 39.7672 8.755 39.8441 8.755C39.9211 8.755 39.9922 8.72759 40.0159 8.55216L41.5498 0.460501C41.5972 0.208322 41.8696 0.00548218 42.142 0.00548218H45.8494C46.0982 0.00548218 46.2462 0.164465 46.2462 0.372787V0.460501L46.2403 0.465983Z" fill="#164194"/>
+      <path d="M60.7575 16.9947H56.7687C56.5328 16.9947 56.3699 16.7969 56.3699 16.5724L56.2968 13.4717H52.1283L50.8867 16.5724C50.7968 16.7969 50.5833 16.9947 50.3474 16.9947H46.2013C45.9935 16.9947 45.8755 16.8824 45.8755 16.706C45.8755 16.6632 45.9036 16.5937 45.9204 16.5242L51.5946 2.8868C52.5103 0.678932 54.3642 0.23522 56.589 0.23522C58.8137 0.23522 60.5047 0.678932 60.5946 2.8868L61.2069 16.5242V16.551C61.2069 16.7969 61.0159 16.9947 60.7631 16.9947H60.7575ZM56.1845 4.23932C56.1845 4.04152 56.1845 3.92925 55.9766 3.92925C55.7687 3.92925 55.7406 4.04152 55.6732 4.23932L53.471 9.90599H56.2856L56.1957 4.23932H56.1901H56.1845Z" fill="#164194"/>
+      <path d="M71.9932 0.433234C72.0394 0.137099 71.8434 0 71.5841 0H67.6421C67.377 0 67.135 0.186455 67.0889 0.433234L66.3397 4.49137L71.682 2.10584L71.9875 0.42775L71.9932 0.433234Z" fill="#E84910"/>
+      <path d="M65.9996 6.31206L64.1094 16.5342C64.0633 16.7645 64.2016 16.9893 64.4955 16.9893H68.4374C68.8005 16.9893 68.9676 16.7864 69.0137 16.5342L71.3478 3.92653L66.0054 6.31206H65.9996Z" fill="#164194"/>
     </svg>
   </div>
 
-  <!-- ── Formulário ────────────────────────────────────── -->
+  <!-- Formulário -->
   <div class="form-area">
     <p class="form-headline">Seu próximo passo<br><b>começa aqui</b></p>
     <p class="form-sub">Acesse sua conta e continue sua jornada de aprendizado e descobertas.</p>
 
     <div class="fields">
-
-      <!-- E-mail ou CPF -->
       <div class="field">
         <div class="field-label">E-mail ou CPF <span class="req">*</span></div>
         <div class="input-wrap">
-          <input
-            id="username"
-            type="text"
-            placeholder="Digite seu e-mail ou CPF"
-            autocomplete="username"
-          >
+          <input type="text" placeholder="Digite seu e-mail ou CPF" autocomplete="username">
         </div>
       </div>
 
-      <!-- Senha -->
       <div class="field">
         <div class="field-label">Senha <span class="req">*</span></div>
         <div class="input-wrap">
-          <input
-            id="pwd"
-            type="password"
-            placeholder="Digite sua senha"
-            autocomplete="current-password"
-          >
-          <button type="button" class="ico-btn" onclick="togglePwd()" aria-label="Alternar visibilidade da senha">
+          <input type="password" id="pwd" placeholder="Digite sua senha" autocomplete="current-password">
+          <button type="button" class="ico-btn" onclick="togglePwd()">
             <span class="material-symbols-rounded" id="pwd-ico">visibility_off</span>
           </button>
         </div>
       </div>
 
-      <!-- Lembre-me + Esqueceu a senha -->
       <div class="row-extras">
         <label class="cb-label">
           <input type="checkbox" id="remember">
@@ -436,17 +409,15 @@
         </label>
         <a href="#" class="link-forgot">Esqueceu a senha?</a>
       </div>
-
     </div>
 
-    <!-- Ações -->
     <div class="actions">
-      <button type="button" class="btn-primary" id="btn-login" onclick="handleLogin()">
-        <span class="spinner-ring" id="spinner"></span>
+      <button type="button" class="btn-entrar" id="btn-login" onclick="handleLogin()">
+        <span class="spin" id="spinner"></span>
         <span id="btn-txt">Entrar</span>
       </button>
-      <button type="button" class="btn-ghost">
-        Não tem uma conta?&nbsp;<span class="link-txt">Clique aqui</span>
+      <button type="button" class="btn-cadastro">
+        Não tem uma conta?&nbsp;<span class="lnk">Clique aqui</span>
       </button>
     </div>
   </div>
@@ -468,10 +439,9 @@
     btn.disabled = true;
     txt.textContent = 'Entrando...';
     sp.style.display = 'block';
-    setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+    setTimeout(() => { window.location.href = 'index.html#estudante/home'; }, 1000);
   }
 
-  // Enter submete
   document.addEventListener('keydown', e => {
     if (e.key === 'Enter') handleLogin();
   });
