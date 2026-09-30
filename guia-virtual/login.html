@@ -72,49 +72,7 @@
       pointer-events: none;
     }
 
-    /* ── Animações dos blobs ─────────────────────────────────── */
-    /* Cada blob flutua de forma independente — velocidade e direção diferentes */
-    #gb1 { animation: gb1 18s ease-in-out infinite alternate; transform-origin: 832px 380px; }
-    #gb2 { animation: gb2 24s ease-in-out infinite alternate; transform-origin: 1087px 695px; }
-    #gb3 { animation: gb3 20s ease-in-out infinite alternate; transform-origin: 760px 775px; }
-    #go1 { animation: go1 15s ease-in-out infinite alternate; transform-origin: 430px 512px; }
-    #go2 { animation: go2 22s ease-in-out infinite alternate; transform-origin: 1213px 652px; }
-    #go3 { animation: go3 17s ease-in-out infinite alternate; transform-origin: 410px 918px; }
-
-    @keyframes gb1 {
-      0%   { transform: translate(0,0)      scale(1); }
-      33%  { transform: translate(60px,-40px) scale(1.08); }
-      66%  { transform: translate(-30px,55px) scale(0.95); }
-      100% { transform: translate(50px,30px)  scale(1.05); }
-    }
-    @keyframes gb2 {
-      0%   { transform: translate(0,0)        scale(1); }
-      33%  { transform: translate(-55px,45px) scale(0.92); }
-      66%  { transform: translate(65px,-35px) scale(1.10); }
-      100% { transform: translate(-40px,50px) scale(1.03); }
-    }
-    @keyframes gb3 {
-      0%   { transform: translate(0,0)         scale(1); }
-      50%  { transform: translate(45px,-60px)  scale(1.12); }
-      100% { transform: translate(-50px,40px)  scale(0.94); }
-    }
-    @keyframes go1 {
-      0%   { transform: translate(0,0)         scale(1); }
-      33%  { transform: translate(-50px,-45px) scale(1.10); }
-      66%  { transform: translate(55px,35px)   scale(0.93); }
-      100% { transform: translate(-35px,55px)  scale(1.07); }
-    }
-    @keyframes go2 {
-      0%   { transform: translate(0,0)         scale(1); }
-      33%  { transform: translate(60px,50px)   scale(0.90); }
-      66%  { transform: translate(-50px,-40px) scale(1.12); }
-      100% { transform: translate(40px,-55px)  scale(1.05); }
-    }
-    @keyframes go3 {
-      0%   { transform: translate(0,0)         scale(1); }
-      50%  { transform: translate(-60px,-50px) scale(1.15); }
-      100% { transform: translate(50px,45px)   scale(0.92); }
-    }
+    /* Animação dos blobs via JavaScript (ver script ao final) */
 
     /* ── Card esquerdo ──────────────────────────────────────── */
     .left-card {
@@ -214,7 +172,7 @@
     /* ── Formulário direito ─────────────────────────────────── */
     .form-area {
       position: absolute;
-      right:  clamp(40px,6%,90px);
+      right:  clamp(20px, 11.2%, 162px);
       top:    50%;
       transform: translateY(-50%);
       width:  clamp(300px,30%,432px);
@@ -351,7 +309,7 @@
 
     /* Logo */
     .logo-wrap {
-      position: absolute; top: 46px; right: 48px;
+      position: absolute; top: 46px; right: clamp(20px, 11.2%, 162px);
       z-index: 10; display: flex; align-items: center;
     }
     .logo-svg { width: auto; height: 20px; }
@@ -519,6 +477,47 @@
 
 </div>
 <script>
+  // ── Animação holográfica dos blobs (requestAnimationFrame) ──────────────
+  // Cada blob oscila com seno/cosseno em frequência e fase diferentes.
+  // Usa atributo `transform` no SVG (funciona em todos os browsers).
+  (function animateGradient() {
+    const blobs = [
+      // { id,  cx,    cy,    ampX, ampY, freqX,  freqY,  phaseX, phaseY, ampS, freqS }
+      { id:'gb1', cx:832,  cy:380, ax:70,  ay:50,  fx:0.28, fy:0.22, px:0,    py:1.2, as:0.10, fs:0.18 },
+      { id:'gb2', cx:1087, cy:695, ax:55,  ay:65,  fx:0.20, fy:0.31, px:2.1,  py:0.5, as:0.08, fs:0.22 },
+      { id:'gb3', cx:760,  cy:775, ax:60,  ay:45,  fx:0.35, fy:0.18, px:1.0,  py:3.0, as:0.12, fs:0.15 },
+      { id:'go1', cx:430,  cy:512, ax:55,  ay:60,  fx:0.22, fy:0.28, px:0.7,  py:1.8, as:0.09, fs:0.25 },
+      { id:'go2', cx:1213, cy:652, ax:65,  ay:50,  fx:0.31, fy:0.24, px:3.5,  py:0.3, as:0.11, fs:0.20 },
+      { id:'go3', cx:410,  cy:918, ax:50,  ay:55,  fx:0.18, fy:0.33, px:1.5,  py:2.5, as:0.08, fs:0.17 },
+    ];
+
+    // Pré-buscar referências
+    const els = blobs.map(b => ({ ...b, el: document.getElementById(b.id) }))
+                     .filter(b => b.el);
+
+    let start = null;
+
+    function tick(ts) {
+      if (!start) start = ts;
+      const t = (ts - start) / 1000; // segundos
+
+      els.forEach(b => {
+        const dx = b.ax * Math.sin(b.fx * t + b.px);
+        const dy = b.ay * Math.cos(b.fy * t + b.py);
+        const sc = 1 + b.as * Math.sin(b.fs * t + b.px * 0.5);
+        // translate em coordenadas SVG (sem px), scale em torno do centro do blob
+        b.el.setAttribute('transform',
+          `translate(${dx.toFixed(2)},${dy.toFixed(2)}) ` +
+          `translate(${b.cx},${b.cy}) scale(${sc.toFixed(4)}) translate(${-b.cx},${-b.cy})`
+        );
+      });
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  })();
+
   function togglePwd() {
     const inp = document.getElementById('pwd');
     const ico = document.getElementById('pwd-ico');

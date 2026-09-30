@@ -1727,7 +1727,7 @@
           <div class="tb-dd-sep"></div>
 
           <!-- Sair -->
-          <button type="button" class="tb-dd-item tb-dd-logout" onclick="tbUserClose()">
+          <button type="button" class="tb-dd-item tb-dd-logout" onclick="window.location.href='login.html'">
             <span class="material-symbols-rounded">logout</span>
             Sair
           </button>
@@ -1903,31 +1903,6 @@
 
           <!-- COLUNA DIREITA -->
           <div class="col">
-            <!-- Mini Perfil -->
-            <div class="card">
-              <div class="card-body">
-                <div class="card-hdr">
-                  <span class="material-symbols-rounded cico red">person_outline</span>
-                  <span class="card-ttl">Meu Perfil de Estudo</span>
-                </div>
-                <div class="prof-list">
-                  <div class="prof-row">
-                    <span class="material-symbols-rounded prof-ico">bolt</span>
-                    <div><div class="prof-lbl">Recursos preferidos</div><div class="prof-val">Lendo resumos de tópicos específicos</div></div>
-                  </div>
-                  <div class="prof-row">
-                    <span class="material-symbols-rounded prof-ico">star_outline</span>
-                    <div><div class="prof-lbl">Nível de experiência</div><div class="prof-val">Intermediário</div></div>
-                  </div>
-                  <div class="prof-row">
-                    <span class="material-symbols-rounded prof-ico">calendar_today</span>
-                    <div><div class="prof-lbl">Meta semanal</div><div class="prof-val">4 dias/sem · 30 min/sessão</div></div>
-                  </div>
-                </div>
-                <button type="button" class="btn-ghost" onclick="goOnboarding()">Alterar preferências</button>
-              </div>
-            </div>
-
             <!-- Estude no seu tempo -->
             <div class="card">
               <div class="card-body">
@@ -1956,6 +1931,31 @@
                   <p class="mapa-desc">Conheça os temas da UC e encontre novos caminhos de estudo</p>
                   <button type="button" class="btn-sm" onclick="go('map')">Abrir mapa</button>
                 </div>
+              </div>
+            </div>
+
+            <!-- Meu Perfil de Estudo -->
+            <div class="card">
+              <div class="card-body">
+                <div class="card-hdr">
+                  <span class="material-symbols-rounded cico red">person_outline</span>
+                  <span class="card-ttl">Meu Perfil de Estudo</span>
+                </div>
+                <div class="prof-list">
+                  <div class="prof-row">
+                    <span class="material-symbols-rounded prof-ico">bolt</span>
+                    <div><div class="prof-lbl">Recursos preferidos</div><div class="prof-val">Lendo resumos de tópicos específicos</div></div>
+                  </div>
+                  <div class="prof-row">
+                    <span class="material-symbols-rounded prof-ico">star_outline</span>
+                    <div><div class="prof-lbl">Nível de experiência</div><div class="prof-val">Intermediário</div></div>
+                  </div>
+                  <div class="prof-row">
+                    <span class="material-symbols-rounded prof-ico">calendar_today</span>
+                    <div><div class="prof-lbl">Meta semanal</div><div class="prof-val">4 dias/sem · 30 min/sessão</div></div>
+                  </div>
+                </div>
+                <button type="button" class="btn-ghost" onclick="goOnboarding()">Alterar preferências</button>
               </div>
             </div>
           </div>
