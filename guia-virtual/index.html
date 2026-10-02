@@ -321,7 +321,8 @@
       display: flex; align-items: center; justify-content: center; font-size: 14px; transition: transform .15s;
     }
     .day-col:hover .day-ring { transform: scale(1.08); }
-    .day-ring.ok    { background: var(--c-primary); color: white; }
+    .day-ring.ok    { background: #fde8df; color: var(--c-primary); }
+    .day-ring.ok .material-symbols-rounded { font-variation-settings: 'FILL' 1, 'wght' 400; }
     .day-ring.miss  { background: var(--c-info-bg); color: var(--c-info); }
     .day-ring.extra { background: var(--c-pov-100); color: var(--c-primary); }
     .day-ring.empty { background: #f5f5f5; color: #a7b5b9; }
@@ -329,6 +330,10 @@
     .day-lbl { font-size: 10px; font-weight: 600; color: var(--c-text-muted); text-transform: uppercase; letter-spacing: .04em; }
     .day-today .day-lbl { color: var(--c-primary); font-weight: 700; }
     .day-col:has(.day-ring.ok) .day-lbl { color: var(--c-text); font-weight: 700; }
+    .consistency-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; color: var(--c-text);
+    }
 
     /* Badges */
     .badge { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--r-sm); font-size: 14px; line-height: 20px; }
@@ -1960,7 +1965,7 @@
                   <div class="day-col" role="listitem"><div class="day-ring ok"><span class="material-symbols-rounded" style="font-size:18px">local_fire_department</span></div><span class="day-lbl">Ter</span></div>
                   <div class="day-col" role="listitem"><div class="day-ring ok"><span class="material-symbols-rounded" style="font-size:18px">local_fire_department</span></div><span class="day-lbl">Qua</span></div>
                   <div class="day-col" role="listitem"><div class="day-ring miss"><span class="material-symbols-rounded" style="font-size:18px">ac_unit</span></div><span class="day-lbl">Qui</span></div>
-                  <div class="day-col day-today" role="listitem"><div class="day-ring empty"></div><span class="day-lbl">Sex</span></div>
+                  <div class="day-col" role="listitem"><div class="day-ring empty"></div><span class="day-lbl">Sex</span></div>
                   <div class="day-col" role="listitem"><div class="day-ring empty"></div><span class="day-lbl">Sáb</span></div>
                   <div class="day-col" role="listitem"><div class="day-ring empty"></div><span class="day-lbl">Dom</span></div>
                 </div>
