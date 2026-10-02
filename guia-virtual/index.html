@@ -326,6 +326,10 @@
     .day-ring.miss  { background: var(--c-info-bg); color: var(--c-info); }
     .day-ring.extra { background: var(--c-pov-100); color: var(--c-primary); }
     .day-ring.empty { background: #f5f5f5; color: #a7b5b9; }
+    /* Estado 3: dia pendente (precisa estudar ainda) — fogo em cinza */
+    .day-ring.pending { background: #f0f0f0; color: #b0b8bc; }
+    /* Estado 4: dia de descanso escolhido — lua suave */
+    .day-ring.rest  { background: #f3f0fa; color: #b8aedd; }
     .day-today .day-ring { box-shadow: 0 0 0 2px var(--c-primary); transform: scale(1.06); }
     .day-lbl { font-size: 10px; font-weight: 600; color: var(--c-text-muted); text-transform: uppercase; letter-spacing: .04em; }
     .day-today .day-lbl { color: var(--c-primary); font-weight: 700; }
@@ -1955,19 +1959,22 @@
                 </div>
                 <div style="margin-bottom:10px">
                   <div class="si" style="margin-bottom:5px">
-                    <span class="k">Meta semanal</span>
+                    <div style="display:flex;align-items:center;gap:6px">
+                      <span class="k">Meta semanal</span>
+                      <span style="font-size:11px;color:var(--c-text-muted)">(2/4 dias)</span>
+                    </div>
                     <span class="v">65%</span>
                   </div>
                   <div class="prog-track"><div class="prog-fill" style="width:65%"></div></div>
                 </div>
                 <div class="days-grid" role="list">
-                  <div class="day-col" role="listitem"><div class="day-ring ok"><span class="material-symbols-rounded" style="font-size:18px">local_fire_department</span></div><span class="day-lbl">Seg</span></div>
-                  <div class="day-col" role="listitem"><div class="day-ring ok"><span class="material-symbols-rounded" style="font-size:18px">local_fire_department</span></div><span class="day-lbl">Ter</span></div>
-                  <div class="day-col" role="listitem"><div class="day-ring ok"><span class="material-symbols-rounded" style="font-size:18px">local_fire_department</span></div><span class="day-lbl">Qua</span></div>
-                  <div class="day-col" role="listitem"><div class="day-ring miss"><span class="material-symbols-rounded" style="font-size:18px">ac_unit</span></div><span class="day-lbl">Qui</span></div>
-                  <div class="day-col" role="listitem"><div class="day-ring empty"></div><span class="day-lbl">Sex</span></div>
-                  <div class="day-col" role="listitem"><div class="day-ring empty"></div><span class="day-lbl">Sáb</span></div>
-                  <div class="day-col" role="listitem"><div class="day-ring empty"></div><span class="day-lbl">Dom</span></div>
+                  <div class="day-col" role="listitem" title="Você estudou neste dia!"><div class="day-ring ok"><span class="material-symbols-rounded" style="font-size:18px">local_fire_department</span></div><span class="day-lbl">Seg</span></div>
+                  <div class="day-col" role="listitem" title="Você estudou neste dia!"><div class="day-ring ok"><span class="material-symbols-rounded" style="font-size:18px">local_fire_department</span></div><span class="day-lbl">Ter</span></div>
+                  <div class="day-col" role="listitem" title="Ainda dá tempo de estudar hoje"><div class="day-ring pending"><span class="material-symbols-rounded" style="font-size:18px">local_fire_department</span></div><span class="day-lbl">Qua</span></div>
+                  <div class="day-col" role="listitem" title="Dia sem estudo esta semana"><div class="day-ring miss"><span class="material-symbols-rounded" style="font-size:18px">ac_unit</span></div><span class="day-lbl">Qui</span></div>
+                  <div class="day-col" role="listitem" title="Dia de descanso nas suas preferências"><div class="day-ring rest"><span class="material-symbols-rounded" style="font-size:16px">bedtime</span></div><span class="day-lbl">Sex</span></div>
+                  <div class="day-col" role="listitem" title="Dia de descanso nas suas preferências"><div class="day-ring rest"><span class="material-symbols-rounded" style="font-size:16px">bedtime</span></div><span class="day-lbl">Sáb</span></div>
+                  <div class="day-col" role="listitem" title="Dia de descanso nas suas preferências"><div class="day-ring rest"><span class="material-symbols-rounded" style="font-size:16px">bedtime</span></div><span class="day-lbl">Dom</span></div>
                 </div>
               </div>
             </div>
