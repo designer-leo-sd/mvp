@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1440" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GVA — Guia Virtual de Aprendizagem</title>
   <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/neo-sans-pro" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -110,7 +110,7 @@
     /* ================================================================
        APP SHELL
     ================================================================ */
-    .app { display: flex; height: 100vh; overflow: hidden; max-width: 1440px; margin: 0 auto; }
+    .app { display: flex; height: 100vh; overflow: hidden; width: 100%; }
 
     /* ================================================================
        SIDEBAR (Menu node 8153:63419)
@@ -121,11 +121,11 @@
       border-right: none;
       display: flex; flex-direction: column;
       height: 100vh; overflow-y: auto;
-      padding: 40px 16px 24px; gap: var(--sp-xs);
+      padding: 0 16px 24px; gap: var(--sp-xs);
       scrollbar-width: thin; scrollbar-color: var(--c-border) transparent;
     }
 
-    .sb-logo { display: flex; align-items: flex-start; margin-bottom: var(--sp-md); padding: 0 4px; }
+    .sb-logo { display: flex; align-items: center; height: 60px; flex-shrink: 0; padding: 0 4px; margin-bottom: var(--sp-xs); }
     .sb-logo-text { font-size: 18px; font-weight: 700; letter-spacing: -.2px; color: var(--c-text); font-family: 'Neo Sans Pro', 'Open Sans', sans-serif; }
     .sb-logo-text .acc { color: var(--c-primary); }
 
@@ -278,7 +278,7 @@
     .scroll-area::-webkit-scrollbar { width: 5px; }
     .scroll-area::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 4px; }
 
-    .view { display: none; padding: var(--sp-xl); max-width: 1100px; }
+    .view { display: none; padding: var(--sp-xl); }
     .view.active { display: block; animation: fadein .18s ease; }
     @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
@@ -350,8 +350,10 @@
       display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
       padding: 10px 12px; background: var(--c-group-bg);
       border-radius: var(--r-xs); margin-bottom: 10px;
+      flex-direction: column;
     }
-    .uc-hdr-name { font-size: 13.5px; font-weight: 700; color: var(--c-text); line-height: 1.4; }
+    .uc-hdr-name  { font-size: 13.5px; font-weight: 700; color: var(--c-text); line-height: 1.4; }
+    .uc-hdr-turma { font-size: 11px; font-weight: 500; color: var(--c-text-muted); }
     .uc-foco { flex-shrink: 0; background: var(--c-primary); color: white; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px; letter-spacing: .5px; text-transform: uppercase; margin-top: 2px; }
 
     /* PD — rótulo de seção */
@@ -438,6 +440,14 @@
       color: white; font-size: 14px; font-weight: 700; line-height: 20px; transition: background .15s;
     }
     .btn-full:hover { background: var(--c-primary-h); }
+    .btn-outline {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+      padding: 8px 14px; border-radius: var(--r-sm);
+      background: transparent; border: 1.5px solid var(--c-primary);
+      color: var(--c-primary); font-size: 14px; font-weight: 600; line-height: 20px;
+      font-family: var(--font); cursor: pointer; transition: background .15s, color .15s;
+    }
+    .btn-outline:hover { background: var(--c-primary-bg, #fff3ef); }
 
     .btn-sm {
       flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
@@ -644,6 +654,7 @@
       position: relative;
       transform-origin: 0 0;
       display: inline-block;
+      padding: 200px;
     }
     .mm-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 
@@ -867,8 +878,8 @@
     .ob-err { font-size: 12px; color: #f59e0b; font-weight: 500; margin-top: 10px; display: none; }
     .ob-err.show { display: block; }
 
-    /* Footer */
-    .ob-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 48px; border-top: 1px solid var(--c-border); position: sticky; bottom: 0; background: white; margin-top: 32px; }
+    /* Footer — fora do ob-card, preenche largura total. padding-right evita sobrepor o FAB */
+    .ob-footer { display: flex; justify-content: space-between; align-items: center; padding: 16px 80px 16px 48px; border-top: 1px solid var(--c-border); background: white; flex-shrink: 0; }
     .ob-btn-back { background: transparent; border: none; font-size: 14px; color: var(--c-text-muted); cursor: pointer; padding: 10px 16px; border-radius: var(--r-sm); transition: background .12s; }
     .ob-btn-back:hover { background: var(--c-group-bg); }
     .ob-btn-back:disabled { opacity: .35; cursor: not-allowed; }
@@ -1321,9 +1332,10 @@
     }
     .qz-alt:hover { border-color: var(--c-primary); background: var(--c-pov-50); }
     .qz-alt.sel   { border-color: var(--c-primary); background: var(--c-pov-100); }
-    .qz-alt.correct  { border-color: var(--c-success); background: var(--c-success-bg); }
-    .qz-alt.wrong    { border-color: var(--c-danger);  background: var(--c-danger-bg);  }
-    .qz-alt.disabled { cursor: not-allowed; opacity: .7; }
+    
+    .qz-alt.selected { border-color: var(--c-primary); background: var(--c-pov-50); }
+    .qz-alt.selected .qz-alt-letter { background: var(--c-primary); color: white; border-color: var(--c-primary); }
+    .qz-q-num { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--c-text-muted); padding: 12px 16px 0; margin-bottom: 0; }
     .qz-alt-letter {
       width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
       background: var(--c-group-bg); border: 1px solid var(--c-border);
@@ -1385,7 +1397,7 @@
       max-width: none !important;
     }
     .pod-scroll { overflow-y: visible; }
-    .pod-inner  { max-width: 620px; margin: 0 auto; padding: 36px 48px 80px; }
+    .pod-inner  { max-width: 620px; margin: 0; padding: 36px 48px 80px; }
 
     .pod-back { display: flex; align-items: center; gap: 6px; margin-bottom: 28px; background: none; border: none; color: var(--c-text-muted); font-size: 13px; cursor: pointer; padding: 0; }
     .pod-back:hover { color: var(--c-text); }
@@ -1611,8 +1623,152 @@
     .pod-msg.right .pod-msg-text { background: var(--c-pov-50); border-radius: 12px 4px 12px 12px; }
     .pod-msg.right .pod-msg-who  { text-align: right; }
 
+    /* ── Podcast: Tabs + Personagens + Músicas ────────────────── */
+    .pod-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--c-border); margin-bottom: 20px; }
+    .pod-tab  {
+      display: flex; align-items: center; gap: 6px;
+      padding: 10px 16px; border: none; background: none; cursor: pointer;
+      font-family: var(--font); font-size: 13.5px; font-weight: 500;
+      color: var(--c-text-muted); border-bottom: 2.5px solid transparent;
+      margin-bottom: -1px; transition: color .15s, border-color .15s;
+    }
+    .pod-tab .material-symbols-rounded { font-size: 17px; }
+    .pod-tab:hover { color: var(--c-text); }
+    .pod-tab.active { color: var(--c-primary); border-bottom-color: var(--c-primary); font-weight: 700; }
+    .pod-tab-panel.hidden { display: none; }
+    .pod-chars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .pod-char-col { display: flex; flex-direction: column; gap: 8px; }
+    .pod-char-col-lbl { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--c-text-muted); text-transform: uppercase; letter-spacing: .05em; }
+    .pod-char-col-lbl .material-symbols-rounded { font-size: 16px; color: var(--c-primary); }
+    .pod-select-wrap { position: relative; }
+    .pod-select { width: 100%; padding: 10px 36px 10px 12px; border: 1.5px solid var(--c-border); border-radius: var(--r-sm); background: white; font-family: var(--font); font-size: 14px; color: var(--c-text); cursor: pointer; appearance: none; transition: border-color .15s; }
+    .pod-select:focus { outline: none; border-color: var(--c-primary); }
+    .pod-select-chev { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--c-text-muted); pointer-events: none; }
+    .pod-voice-prev-btn { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--c-primary); background: none; border: 1.5px solid var(--c-primary); border-radius: var(--r-full); padding: 5px 12px; cursor: pointer; font-family: var(--font); transition: all .15s; width: fit-content; }
+    .pod-voice-prev-btn:hover { background: var(--c-primary); color: white; }
+    .pod-voice-prev-btn .material-symbols-rounded { font-size: 14px; }
+    .pod-input { width: 100%; padding: 9px 12px; border: 1.5px solid var(--c-border); border-radius: var(--r-sm); font-family: var(--font); font-size: 14px; color: var(--c-text); background: var(--c-group-bg); transition: border-color .15s; }
+    .pod-input:focus { outline: none; border-color: var(--c-primary); background: white; }
+    .pod-music-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .pod-music-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--c-border); border-radius: var(--r-sm); background: white; }
+    .pod-music-play { background: none; border: none; cursor: pointer; color: var(--c-primary); padding: 0; display: flex; }
+    .pod-music-play .material-symbols-rounded { font-size: 28px; }
+    .pod-music-info { flex: 1; }
+    .pod-music-name { font-size: 13px; font-weight: 600; color: var(--c-text); }
+    .pod-music-file { font-size: 11px; color: var(--c-text-muted); }
+    .pod-music-skip { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--c-text-muted); cursor: pointer; white-space: nowrap; }
+    .pod-music-add { display: flex; align-items: center; gap: 4px; padding: 6px 14px; border-radius: var(--r-full); font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: var(--font); white-space: nowrap; transition: all .15s; background: var(--c-primary); border: none; color: white; }
+    .pod-music-add.inactive { background: none; border: 1.5px solid var(--c-border); color: var(--c-text-muted); }
+    .pod-music-add .material-symbols-rounded { font-size: 14px; }
+    .pod-music-preview { background: none; border: none; cursor: pointer; color: var(--c-text-muted); padding: 4px; display: flex; }
+    .pod-music-preview:hover { color: var(--c-primary); }
+    .pod-music-preview .material-symbols-rounded { font-size: 18px; }
+
     /* Loading */
     .pod-loading-msg    { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 16px; margin-bottom: 24px; font-size: 14px; font-weight: 500; color: var(--c-primary); animation: ssPulse 2s ease-in-out infinite; }
+
+    /* ================================================================
+       RESPONSIVO MOBILE — ≤ 768px
+    ================================================================ */
+    @media (max-width: 768px) {
+
+      /* Viewport */
+      html, body { overflow-x: hidden; }
+
+      /* Layout */
+      .app { flex-direction: column; height: auto; min-height: 100vh; max-width: 100%; }
+
+      /* Sidebar: oculta no mobile */
+      .sidebar { display: none; }
+
+      /* Bottom nav mobile */
+      .mobile-nav {
+        display: flex !important;
+        position: fixed; bottom: 0; left: 0; right: 0;
+        height: 62px; background: white;
+        border-top: 1px solid var(--c-border);
+        z-index: 300; padding: 0 4px;
+        box-shadow: 0 -2px 12px rgba(0,0,0,.07);
+      }
+      .mobile-nav-item {
+        flex: 1; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 3px;
+        background: none; border: none; cursor: pointer;
+        font-family: var(--font); font-size: 10px; color: var(--c-text-muted);
+        padding: 8px 4px; border-radius: 8px; transition: color .15s;
+      }
+      .mobile-nav-item .material-symbols-rounded { font-size: 22px; }
+      .mobile-nav-item.active { color: var(--c-primary); }
+
+      /* Main e topbar */
+      .main { width: 100%; overflow-x: hidden; }
+      .topbar { padding: 0 16px; height: 54px; }
+      .tb-crumb { font-size: 12px; }
+
+      /* Scroll area com espaço para bottom nav */
+      .scroll-area { padding-bottom: 70px; }
+
+      /* Views: padding reduzido */
+      .view { padding: 16px; }
+      #view-map.active { height: calc(100vh - 54px); }
+      #view-map.active .mm-wrap { padding: 0 8px 8px; }
+      #view-onboarding.active { height: calc(100vh - 54px); }
+
+      /* Home: grid de 1 coluna */
+      .hgrid { grid-template-columns: 1fr; gap: 16px; }
+
+      /* Progresso semanal: dias menores */
+      .day-ring { width: 36px; height: 36px; font-size: 9px; }
+      .days-row { gap: 4px; }
+
+      /* Grids 2-col → 1-col */
+      .pref-grid      { grid-template-columns: 1fr; }
+      .doc-kpi-grid   { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .turma-grid     { grid-template-columns: 1fr; }
+      .doc-quick-grid { grid-template-columns: 1fr 1fr; }
+      .qz-levels      { grid-template-columns: 1fr; }
+      .pod-chars-grid { grid-template-columns: 1fr; gap: 20px; }
+      .pod-voices     { grid-template-columns: 1fr; }
+
+      /* Inner/scroll widths */
+      .qz-inner   { padding: 16px 16px 100px; }
+      .ss-inner   { padding: 16px; }
+      .pod-inner  { padding: 16px 16px 100px; }
+      .ob-card    { padding: 24px 16px 0; }
+      .ob-footer  { padding: 12px 16px 12px 16px; }
+
+      /* Perfil hero */
+      .profile-hero { flex-direction: row; gap: 12px; }
+
+      /* Mapa barra superior */
+      .mm-bar { padding: 10px 12px; flex-wrap: wrap; gap: 8px; }
+      .mm-hint { display: none; }
+
+      /* Modal de estudo */
+      .study-overlay { align-items: flex-end; }
+      .study-dialog  { width: 100% !important; max-width: 100% !important; border-radius: 20px 20px 0 0; }
+
+      /* Detalhe turma modal */
+      #dt-overlay .study-dialog { max-width: 100% !important; border-radius: 20px 20px 0 0; }
+
+      /* Chat FAB: ajustar margem para não sobrepor bottom nav */
+      .chat-fab { bottom: 74px; }
+
+      /* Zoom bar no mapa */
+      .mm-zoom-bar { bottom: 74px; right: 12px; }
+
+      /* Topbar: compactar user pill */
+      .tb-user-info .tb-user-role { display: none; }
+
+      /* Sessão de estudo: guia vira collapsado */
+      .ss-guide { display: none; }
+      .ss-main-area { grid-template-columns: 1fr !important; }
+
+    }
+
+    /* Esconder bottom nav no desktop */
+    .mobile-nav { display: none; }
+
   </style>
 </head>
 <body>
@@ -1670,6 +1826,22 @@
     </div>
   </aside>
 
+  <!-- Bottom nav — visível apenas em mobile -->
+  <nav class="mobile-nav" aria-label="Navegação principal">
+    <button type="button" class="mobile-nav-item active" id="mnav-home" onclick="go('home')">
+      <span class="material-symbols-rounded">home</span>Início
+    </button>
+    <button type="button" class="mobile-nav-item" id="mnav-map" onclick="go('map')">
+      <span class="material-symbols-rounded">account_tree</span>Mapa
+    </button>
+    <button type="button" class="mobile-nav-item" id="mnav-study" onclick="go('study')">
+      <span class="material-symbols-rounded">school</span>Estudar
+    </button>
+    <button type="button" class="mobile-nav-item" id="mnav-profile" onclick="go('profile')">
+      <span class="material-symbols-rounded">person_outline</span>Perfil
+    </button>
+  </nav>
+
   <!-- MAIN -->
   <div class="main">
     <header class="topbar">
@@ -1679,13 +1851,6 @@
         <span id="tb-cur" class="cur">Início</span>
       </div>
       <div class="tb-right">
-        <button type="button" class="tb-pill" id="tb-turma-pill" title="Mudar de turma">
-          <div class="tb-pill-info">
-            <span class="tb-pill-lbl">Turma</span>
-            <span class="tb-pill-val">3A — Análise de Sistemas</span>
-          </div>
-          <span class="material-symbols-rounded">expand_more</span>
-        </button>
         <button type="button" class="tb-user-pill" id="tb-user-pill" onclick="tbUserToggle(event)">
           <div class="avatar avatar-sm tb-avatar">MS</div>
           <div class="tb-user-info">
@@ -1785,6 +1950,7 @@
                 <div class="uc-block">
                   <div class="uc-hdr">
                     <span class="uc-hdr-name">Fabricação Mecânica Aplicada à Manutenção e à Montagem</span>
+                    <span class="uc-hdr-turma">T TELM 2026/1 N2 (123622)</span>
                   </div>
                   <div class="pd-lbl">PD 1 — Manutenção Preventiva</div>
                   <div class="cap-row" onclick="capMenu(this)">
@@ -1853,6 +2019,7 @@
                 <div class="uc-block">
                   <div class="uc-hdr">
                     <span class="uc-hdr-name">Montagem de Sistemas Elétricos</span>
+                    <span class="uc-hdr-turma">T TELM 2026/1 N2 (123623)</span>
                   </div>
                   <div class="pd-lbl">PD 1 — Instalação Elétrica Industrial</div>
                   <div class="cap-row" onclick="capMenu(this)">
@@ -2210,15 +2377,16 @@
 
             </div><!-- /ob-body -->
 
-            <!-- Footer -->
-            <div class="ob-footer">
+          </div><!-- /ob-card -->
+
+          <!-- Footer fora do ob-card para preencher largura total -->
+          <div class="ob-footer">
               <button type="button" class="ob-btn-back" id="ob-back-btn" onclick="obBack()" disabled>Voltar</button>
               <button type="button" class="ob-btn-next" id="ob-next-btn" onclick="obNext()">
                 Próxima Etapa <span class="material-symbols-rounded" style="font-size:18px">arrow_forward</span>
               </button>
-            </div>
+          </div>
 
-          </div><!-- /ob-card -->
         </div><!-- /ob-wrap -->
       </div><!-- /view-onboarding -->
       <!-- SESSÃO DE ESTUDO — StudySession.vue -->
@@ -2499,18 +2667,6 @@
             <div class="phr-sub"><span class="chip chip-ok">● Estudante</span>&nbsp;&nbsp;Turma 3A · Análise de Sistemas</div>
           </div>
         </div>
-        <div style="margin-bottom:24px">
-          <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:10px">Etapas de configuração</div>
-          <div class="steps-row">
-            <div class="step-dot done"></div><div class="step-line done"></div>
-            <div class="step-dot done"></div><div class="step-line done"></div>
-            <div class="step-dot done"></div><div class="step-line done"></div>
-            <div class="step-dot done"></div><div class="step-line done"></div>
-            <div class="step-dot done"></div><div class="step-line done"></div>
-            <div class="step-dot done"></div>
-          </div>
-          <div style="font-size:12px;color:var(--c-success);margin-top:5px;font-weight:600">✓ Perfil completo — 6/6 etapas</div>
-        </div>
         <div class="pref-grid">
           <div class="pref-card"><div class="pref-lbl">Recursos preferidos</div><div class="pref-val">Lendo resumos</div></div>
           <div class="pref-card"><div class="pref-lbl">Nível de experiência</div><div class="pref-val">Intermediário</div></div>
@@ -2538,7 +2694,7 @@
           </div>
         </div>
         <div class="sep"></div>
-        <button type="button" class="btn-full" style="max-width:320px" onclick="goOnboarding()">Refazer onboarding completo</button>
+        <button type="button" class="btn-outline" style="max-width:320px" onclick="goOnboarding()">Alterar preferências</button>
       </div>
 
 
@@ -3113,78 +3269,130 @@
           <div class="pod-cap-uc"   id="pod-cap-uc">Unidade Curricular</div>
         </div>
 
-        <!-- Seleção de Voz -->
-        <div style="font-size:13px;font-weight:700;color:var(--c-text);margin-bottom:12px;display:flex;align-items:center;gap:8px">
-          <span class="material-symbols-rounded" style="font-size:16px;color:var(--c-text-muted)">record_voice_over</span>
-          Escolha a Voz
+        <!-- Tabs: Personagens | Músicas -->
+        <div class="pod-tabs">
+          <button type="button" class="pod-tab active" id="pod-tab-chars" onclick="podSwitchTab('chars')">
+            <span class="material-symbols-rounded">people</span>Personagens
+          </button>
+          <button type="button" class="pod-tab" id="pod-tab-music" onclick="podSwitchTab('music')">
+            <span class="material-symbols-rounded">music_note</span>Músicas
+          </button>
         </div>
-        <div class="pod-voices" id="pod-voices">
-          <div class="pod-voice-card selected" id="pvc-fernanda" onclick="podSelectVoice('fernanda')">
-            <div class="pod-voice-top">
-              <div class="pod-voice-av" style="background:#e84910">F</div>
-              <div>
-                <div class="pod-voice-name">Fernanda</div>
-                <span class="pod-voice-tag">Clara · Dinâmica</span>
+
+        <!-- Tab: Personagens -->
+        <div class="pod-tab-panel" id="pod-panel-chars">
+          <div class="pod-chars-grid">
+
+            <!-- Apresentador -->
+            <div class="pod-char-col">
+              <div class="pod-char-col-lbl">
+                <span class="material-symbols-rounded">mic</span>Apresentador (Duda)
               </div>
-            </div>
-            <button type="button" class="pod-voice-prev" id="pvp-fernanda" onclick="event.stopPropagation();podPreviewVoice('fernanda',this)">
-              <span class="material-symbols-rounded">play_arrow</span>Ouvir prévia
-            </button>
-          </div>
-          <div class="pod-voice-card" id="pvc-lucas" onclick="podSelectVoice('lucas')">
-            <div class="pod-voice-top">
-              <div class="pod-voice-av" style="background:#3b82f6">L</div>
-              <div>
-                <div class="pod-voice-name">Lucas</div>
-                <span class="pod-voice-tag">Grave · Expressivo</span>
+              <div class="pod-select-wrap">
+                <select class="pod-select" id="pod-host-select" onchange="podVoiceChange('host', this.value)">
+                  <option value="alloy">Alloy</option>
+                  <option value="ash">Ash</option>
+                  <option value="coral">Coral</option>
+                  <option value="echo">Echo</option>
+                  <option value="fable">Fable</option>
+                  <option value="nova">Nova</option>
+                  <option value="onyx">Onyx</option>
+                  <option value="shimmer">Shimmer</option>
+                </select>
+                <span class="material-symbols-rounded pod-select-chev">expand_more</span>
               </div>
+              <button type="button" class="pod-voice-prev-btn" onclick="podPreviewSelect('host')">
+                <span class="material-symbols-rounded">volume_up</span>Ouvir prévia
+              </button>
             </div>
-            <button type="button" class="pod-voice-prev" id="pvp-lucas" onclick="event.stopPropagation();podPreviewVoice('lucas',this)">
-              <span class="material-symbols-rounded">play_arrow</span>Ouvir prévia
-            </button>
-          </div>
-          <div class="pod-voice-card" id="pvc-beatriz" onclick="podSelectVoice('beatriz')">
-            <div class="pod-voice-top">
-              <div class="pod-voice-av" style="background:#14b8a6">B</div>
-              <div>
-                <div class="pod-voice-name">Beatriz</div>
-                <span class="pod-voice-tag">Entusiasta · Leve</span>
+
+            <!-- Convidado -->
+            <div class="pod-char-col">
+              <div class="pod-char-col-lbl">
+                <span class="material-symbols-rounded">person</span>Convidado (Cris)
               </div>
-            </div>
-            <button type="button" class="pod-voice-prev" id="pvp-beatriz" onclick="event.stopPropagation();podPreviewVoice('beatriz',this)">
-              <span class="material-symbols-rounded">play_arrow</span>Ouvir prévia
-            </button>
-          </div>
-          <div class="pod-voice-card" id="pvc-rafael" onclick="podSelectVoice('rafael')">
-            <div class="pod-voice-top">
-              <div class="pod-voice-av" style="background:#475569">R</div>
-              <div>
-                <div class="pod-voice-name">Rafael</div>
-                <span class="pod-voice-tag">Formal · Preciso</span>
+              <div class="pod-select-wrap">
+                <select class="pod-select" id="pod-guest-select" onchange="podVoiceChange('guest', this.value)">
+                  <option value="echo" selected>Echo</option>
+                  <option value="alloy">Alloy</option>
+                  <option value="ash">Ash</option>
+                  <option value="coral">Coral</option>
+                  <option value="fable">Fable</option>
+                  <option value="nova">Nova</option>
+                  <option value="onyx">Onyx</option>
+                  <option value="shimmer">Shimmer</option>
+                </select>
+                <span class="material-symbols-rounded pod-select-chev">expand_more</span>
               </div>
+              <button type="button" class="pod-voice-prev-btn" onclick="podPreviewSelect('guest')">
+                <span class="material-symbols-rounded">volume_up</span>Ouvir prévia
+              </button>
             </div>
-            <button type="button" class="pod-voice-prev" id="pvp-rafael" onclick="event.stopPropagation();podPreviewVoice('rafael',this)">
-              <span class="material-symbols-rounded">play_arrow</span>Ouvir prévia
-            </button>
+
           </div>
         </div>
 
-        <!-- Tom de Voz (sliders compactos) -->
-        <div class="pod-tone-section">
-          <div class="pod-tone-title">
-            <span class="material-symbols-rounded">tune</span>Tom de Voz
-          </div>
-          <div class="pod-tone-row">
-            <div class="pod-tone-col">
-              <div class="pod-tone-lbl">Formalidade <span id="pod-formality-val">Neutra</span></div>
-              <input type="range" class="pod-tone-slider" id="pod-formality" min="0" max="2" value="1" oninput="podToneUpdate()">
-              <div class="pod-tone-ends"><span>Casual</span><span>Profissional</span></div>
+        <!-- Tab: Músicas -->
+        <div class="pod-tab-panel hidden" id="pod-panel-music">
+          <div class="pod-music-list">
+
+            <div class="pod-music-row">
+              <button type="button" class="pod-music-play" onclick="podPreviewMusic('intro')" title="Ouvir">
+                <span class="material-symbols-rounded">play_circle</span>
+              </button>
+              <div class="pod-music-info">
+                <div class="pod-music-name">Intro</div>
+                <div class="pod-music-file">intro.mp3</div>
+              </div>
+              <label class="pod-music-skip">
+                <input type="checkbox" id="pod-skip-intro"> Não adicionar
+              </label>
+              <button type="button" class="pod-music-add active" id="pod-add-intro" onclick="podToggleMusic('intro')">
+                <span class="material-symbols-rounded">add</span> Adicionar
+              </button>
+              <button type="button" class="pod-music-preview" onclick="podPreviewMusic('intro')" title="Prévia">
+                <span class="material-symbols-rounded">volume_up</span>
+              </button>
             </div>
-            <div class="pod-tone-col">
-              <div class="pod-tone-lbl">Detalhe <span id="pod-detail-val">Neutra</span></div>
-              <input type="range" class="pod-tone-slider" id="pod-detail" min="0" max="2" value="1" oninput="podToneUpdate()">
-              <div class="pod-tone-ends"><span>Resumida</span><span>Explicativa</span></div>
+
+            <div class="pod-music-row">
+              <button type="button" class="pod-music-play" onclick="podPreviewMusic('fundo')" title="Ouvir">
+                <span class="material-symbols-rounded">play_circle</span>
+              </button>
+              <div class="pod-music-info">
+                <div class="pod-music-name">Fundo</div>
+                <div class="pod-music-file">background.mp3</div>
+              </div>
+              <label class="pod-music-skip">
+                <input type="checkbox" id="pod-skip-fundo"> Não adicionar
+              </label>
+              <button type="button" class="pod-music-add active" id="pod-add-fundo" onclick="podToggleMusic('fundo')">
+                <span class="material-symbols-rounded">add</span> Adicionar
+              </button>
+              <button type="button" class="pod-music-preview" onclick="podPreviewMusic('fundo')" title="Prévia">
+                <span class="material-symbols-rounded">volume_up</span>
+              </button>
             </div>
+
+            <div class="pod-music-row">
+              <button type="button" class="pod-music-play" onclick="podPreviewMusic('encerramento')" title="Ouvir">
+                <span class="material-symbols-rounded">play_circle</span>
+              </button>
+              <div class="pod-music-info">
+                <div class="pod-music-name">Encerramento</div>
+                <div class="pod-music-file">ending.mp3</div>
+              </div>
+              <label class="pod-music-skip">
+                <input type="checkbox" id="pod-skip-encerramento"> Não adicionar
+              </label>
+              <button type="button" class="pod-music-add active" id="pod-add-encerramento" onclick="podToggleMusic('encerramento')">
+                <span class="material-symbols-rounded">add</span> Adicionar
+              </button>
+              <button type="button" class="pod-music-preview" onclick="podPreviewMusic('encerramento')" title="Prévia">
+                <span class="material-symbols-rounded">volume_up</span>
+              </button>
+            </div>
+
           </div>
         </div>
 
@@ -3470,10 +3678,14 @@
   function go(view) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.sb-item').forEach(n => n.classList.remove('active'));
-    const v = document.getElementById('view-' + view);
-    const n = document.getElementById('nav-' + view);
-    if (v) v.classList.add('active');
-    if (n) n.classList.add('active');
+    // Sincronizar bottom nav mobile
+    document.querySelectorAll('.mobile-nav-item').forEach(n => n.classList.remove('active'));
+    const v  = document.getElementById('view-' + view);
+    const n  = document.getElementById('nav-'  + view);
+    const mn = document.getElementById('mnav-' + view);
+    if (v)  v.classList.add('active');
+    if (n)  n.classList.add('active');
+    if (mn) mn.classList.add('active');
     document.getElementById('scroll-area').scrollTop = 0;
     document.getElementById('tb-cur').textContent = TITLES[view] || view;
     if (view === 'map') setTimeout(mmInit, 60);
@@ -4305,83 +4517,133 @@
   }
 
   function qzShowQuestion(idx) {
+    // Nova abordagem: mostrar TODAS as questões de uma vez
     const qs   = QZ_MOCK_Q.slice(0, Math.min(qzQty, QZ_MOCK_Q.length));
-    const q    = qs[idx];
     const list = document.getElementById('qz-questions-list');
+    const foot = document.getElementById('qz-footer');
     const btn  = document.getElementById('qz-btn-next');
     const back = document.getElementById('qz-btn-back');
-    const foot = document.getElementById('qz-footer');
 
-    // Ocultar footer até responder
-    if (foot) foot.style.display = 'none';
+    qzAnswers = new Array(qs.length).fill(null);
+
+    if (foot) foot.style.display = 'flex';
     if (back) back.style.display = 'none';
+    if (btn) {
+      btn.disabled = false;
+      btn.onclick  = qzValidateAll;
+      btn.innerHTML = '<span class="material-symbols-rounded" style="font-size:18px">check_circle</span>Validar respostas';
+    }
 
-    // Barra de progresso + contador
-    const pctDone = Math.round((idx / qs.length) * 100);
+    // Render de todas as questões
     list.innerHTML = `
-      <div style="margin-bottom:20px">
-        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--c-text-muted);margin-bottom:8px">
-          <span>Exercício ${idx+1} de ${qs.length}</span>
-          <span style="font-weight:600;color:var(--c-primary)">${qzCorrectCount} acertos</span>
-        </div>
-        <div class="qz-step-progress">
-          <div class="qz-step-bar" style="width:${pctDone}%"></div>
-        </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div style="font-size:13px;color:var(--c-text-muted)">${qs.length} questões</div>
+        <div style="font-size:12px;color:var(--c-text-muted)">Selecione uma resposta por questão</div>
       </div>
-      <div class="qz-question-card">
-        <div class="qz-q-text">${q.q}</div>
-        <div class="qz-alts" id="qz-alts">
-          ${q.alts.map((alt, ai) => `
-            <div class="qz-alt" id="qz-a${ai}" onclick="qzAnswerOne(${idx},${ai})">
-              <div class="qz-alt-letter">${String.fromCharCode(65+ai)}</div>
-              <div class="qz-alt-text">${alt}</div>
-            </div>`).join('')}
-        </div>
-        <div id="qz-feedback" style="display:none;margin-top:14px"></div>
-      </div>`;
+      ${qs.map((q, qi) => `
+        <div class="qz-question-card" id="qz-card-${qi}" style="margin-bottom:16px">
+          <div class="qz-q-num">Questão ${qi+1}</div>
+          <div class="qz-q-text">${q.q}</div>
+          <div class="qz-alts" id="qz-alts-${qi}">
+            ${q.alts.map((alt, ai) => `
+              <div class="qz-alt" id="qz-a${qi}-${ai}" onclick="qzSelectAnswer(${qi},${ai})">
+                <div class="qz-alt-letter">${String.fromCharCode(65+ai)}</div>
+                <div class="qz-alt-text">${alt}</div>
+              </div>`).join('')}
+          </div>
+          <div id="qz-feedback-${qi}" style="display:none;margin-top:12px"></div>
+        </div>`).join('')}`;
+  }
+
+  function qzSelectAnswer(qIdx, altIdx) {
+    if (qzValidated) return;
+    const qs = QZ_MOCK_Q.slice(0, Math.min(qzQty, QZ_MOCK_Q.length));
+    qzAnswers[qIdx] = altIdx;
+
+    // Atualizar visual: destacar selecionada, remover das outras
+    qs[qIdx].alts.forEach((_, ai) => {
+      const el = document.getElementById(`qz-a${qIdx}-${ai}`);
+      if (el) el.classList.toggle('selected', ai === altIdx);
+    });
+
+    // Contar respondidas
+    const answered = qzAnswers.filter(a => a !== null).length;
+    const btn = document.getElementById('qz-btn-next');
+    if (btn) {
+      btn.innerHTML = answered < qs.length
+        ? `<span class="material-symbols-rounded" style="font-size:18px">check_circle</span>Validar (${answered}/${qs.length})`
+        : '<span class="material-symbols-rounded" style="font-size:18px">check_circle</span>Validar respostas';
+    }
+  }
+
+  function qzValidateAll() {
+    if (qzValidated) return;
+    const qs = QZ_MOCK_Q.slice(0, Math.min(qzQty, QZ_MOCK_Q.length));
+
+    // Verificar se todas foram respondidas
+    const unanswered = qzAnswers.filter(a => a === null).length;
+    if (unanswered > 0) {
+      const btn = document.getElementById('qz-btn-next');
+      if (btn) {
+        btn.innerHTML = `<span class="material-symbols-rounded" style="font-size:18px">warning</span>Responda todas (${unanswered} pendente${unanswered>1?'s':''})`;
+        setTimeout(() => {
+          btn.innerHTML = `<span class="material-symbols-rounded" style="font-size:18px">check_circle</span>Validar respostas`;
+        }, 2000);
+      }
+      // Destacar não respondidas
+      qs.forEach((_, qi) => {
+        if (qzAnswers[qi] === null) {
+          const card = document.getElementById('qz-card-'+qi);
+          if (card) { card.style.borderColor = '#f97607'; setTimeout(()=>card.style.borderColor='', 2000); }
+        }
+      });
+      return;
+    }
+
+    qzValidated = true;
+    qzCorrectCount = 0;
+
+    // Validar e mostrar feedback em cada questão
+    qs.forEach((q, qi) => {
+      const selected = qzAnswers[qi];
+      const ok = selected === q.correct;
+      if (ok) qzCorrectCount++;
+
+      // Colorir alternativas
+      q.alts.forEach((_, ai) => {
+        const el = document.getElementById(`qz-a${qi}-${ai}`);
+        if (!el) return;
+        el.classList.remove('selected');
+        el.classList.add('disabled');
+        el.onclick = null;
+        if (ai === q.correct)              el.classList.add('correct');
+        else if (ai === selected && !ok)   el.classList.add('wrong');
+      });
+
+      // Feedback por questão
+      const fb = document.getElementById('qz-feedback-'+qi);
+      if (fb) {
+        fb.style.display = 'block';
+        fb.innerHTML = `<div class="qz-just ${ok?'ok':'fail'}">
+          <span class="material-symbols-rounded">${ok?'check_circle':'cancel'}</span>
+          <span><strong>${ok?'Correto!':'Incorreto.'}</strong> ${q.just}</span>
+        </div>`;
+      }
+    });
+
+    // Atualizar footer → Ver resultado
+    const btn = document.getElementById('qz-btn-next');
+    if (btn) {
+      btn.onclick = qzShowResults;
+      btn.innerHTML = '<span class="material-symbols-rounded" style="font-size:18px">emoji_events</span>Ver resultado';
+    }
+
+    document.getElementById('qz-scroll').scrollTop = 0;
   }
 
   function qzAnswerOne(qIdx, altIdx) {
-    const qs    = QZ_MOCK_Q.slice(0, Math.min(qzQty, QZ_MOCK_Q.length));
-    const q     = qs[qIdx];
-    const ok    = altIdx === q.correct;
-    if (ok) qzCorrectCount++;
-    const isLast = qIdx === qs.length - 1;
-
-    // Travar alternativas e mostrar correto/errado
-    q.alts.forEach((_, ai) => {
-      const el = document.getElementById('qz-a' + ai);
-      if (!el) return;
-      el.classList.add('disabled');
-      el.onclick = null;
-      if (ai === q.correct)                          el.classList.add('correct');
-      else if (ai === altIdx && !ok)                 el.classList.add('wrong');
-    });
-
-    // Feedback imediato
-    const fb = document.getElementById('qz-feedback');
-    if (fb) {
-      fb.style.display = 'block';
-      fb.innerHTML = `<div class="qz-just ${ok?'ok':'fail'}">
-        <span class="material-symbols-rounded">${ok?'check_circle':'cancel'}</span>
-        <span><strong>${ok ? 'Correto!' : 'Incorreto.'}</strong> ${q.just}</span>
-      </div>`;
-    }
-
-    // Mostrar footer com botão Continuar / Ver resultado
-    const foot = document.getElementById('qz-footer');
-    const back = document.getElementById('qz-btn-back');
-    const btn  = document.getElementById('qz-btn-next');
-    if (foot) foot.style.display = 'flex';
-    if (back) back.style.display = 'none';  // sem voltar durante o quiz
-    if (btn) {
-      btn.disabled = false;
-      btn.onclick  = isLast ? qzShowResults : () => qzShowQuestion(qIdx + 1);
-      btn.innerHTML = isLast
-        ? '<span class="material-symbols-rounded" style="font-size:18px">emoji_events</span>Ver resultado'
-        : '<span class="material-symbols-rounded" style="font-size:18px">arrow_forward</span>Continuar';
-    }
-    document.getElementById('qz-scroll').scrollTop = 999;
+    // Legado — redirecionar para a nova lógica
+    qzSelectAnswer(qIdx, altIdx);
   }
 
   function qzShowResults() {
@@ -4619,17 +4881,18 @@
   const MM_ZOOM_MIN = 0.3, MM_ZOOM_MAX = 2.5, MM_ZOOM_STEP = 1.2;
 
   function mmApplyZoom() {
-    const world = document.getElementById('mm-world');
-    if (!world) return;
-    world.style.transform = `scale(${mmZoomLevel})`;
-    // Ajustar tamanho do host para que o scroll reflita o zoom
-    world.style.width  = (COLS.cap + 340) + 'px';
-    world.style.height = CH + 'px';
-    // Padding virtual no canvas para que o scroll funcione na área escalada
+    const world  = document.getElementById('mm-world');
     const canvas = document.getElementById('mm-canvas');
-    canvas.style.minWidth  = Math.round((COLS.cap + 340) * mmZoomLevel + 40) + 'px';
-    canvas.style.minHeight = Math.round(CH * mmZoomLevel + 40) + 'px';
-    // Label
+    if (!world || !canvas) return;
+
+    // `zoom` afeta o layout (scrollable area) — ao contrário de transform:scale
+    world.style.zoom = mmZoomLevel;
+    world.style.transform = '';  // remover transform antigo se existir
+
+    // Garantir que o canvas pode rolar (sem forçar minWidth que quebra o flex)
+    canvas.style.minWidth  = '';
+    canvas.style.minHeight = '';
+
     const lbl = document.getElementById('mm-zoom-lbl');
     if (lbl) lbl.textContent = Math.round(mmZoomLevel * 100) + '%';
   }
@@ -4641,15 +4904,19 @@
 
   function mmZoomFit() {
     const canvas = document.getElementById('mm-canvas');
-    if (!canvas) return;
+    const world  = document.getElementById('mm-world');
+    if (!canvas || !world) return;
+    // Calcular zoom para caber o conteúdo na área visível
     const cw = canvas.clientWidth  - 40;
     const ch = canvas.clientHeight - 40;
-    const z  = Math.min(cw / (COLS.cap + 340), ch / CH, 1.0);
+    const ww = parseInt(world.style.width)  || (COLS.cap + 340);
+    const wh = parseInt(world.style.height) || CH;
+    const z  = Math.min(cw / ww, ch / wh, 1.0);
     mmZoomLevel = Math.max(MM_ZOOM_MIN, z);
     mmApplyZoom();
     setTimeout(() => {
       canvas.scrollLeft = 0;
-      canvas.scrollTop  = Math.max(0, (CH * mmZoomLevel - canvas.clientHeight) / 2);
+      canvas.scrollTop  = Math.max(0, (wh * mmZoomLevel - canvas.clientHeight) / 2);
     }, 30);
   }
 
@@ -4661,28 +4928,48 @@
     /* ── Pan: arrastar canvas com botão esquerdo ── */
     let panning = false, panX = 0, panY = 0, panSL = 0, panST = 0;
 
+    const PAN_EXCLUDE = '.mm-node, .mm-cap-node, .mm-zoom-bar, .mm-cap-btn, .mm-study-node, button, a, input, select';
+
     canvas.addEventListener('mousedown', e => {
       if (e.button !== 0) return;
-      // Ignorar cliques em nós, cards, botões e zoom bar
-      if (e.target.closest('.mm-node, .mm-cap-node, .mm-zoom-bar, .mm-cap-btn, button, a')) return;
+      // Não iniciar pan se o clique for na área da scrollbar
+      const onScrollbarH = e.offsetY > canvas.clientHeight;
+      const onScrollbarV = e.offsetX > canvas.clientWidth;
+      if (onScrollbarH || onScrollbarV) return;
+      // Só ignora se clicou em elemento interativo
+      try { if (e.target.closest(PAN_EXCLUDE)) return; } catch(_) {}
       panning = true;
-      panX  = e.clientX; panY  = e.clientY;
-      panSL = canvas.scrollLeft; panST = canvas.scrollTop;
+      panX  = e.clientX;
+      panY  = e.clientY;
+      panSL = canvas.scrollLeft;
+      panST = canvas.scrollTop;
       canvas.style.cursor = 'grabbing';
+      canvas.style.userSelect = 'none';
       e.preventDefault();
     });
 
     document.addEventListener('mousemove', e => {
       if (!panning) return;
+      // Abortar se botão foi solto fora do canvas (e.g. fora da janela)
+      if (e.buttons === 0) { stopPan(); return; }
       canvas.scrollLeft = panSL - (e.clientX - panX);
       canvas.scrollTop  = panST - (e.clientY - panY);
     });
 
-    document.addEventListener('mouseup', () => {
-      if (!panning) return;
+    document.addEventListener('mouseup', e => {
+      if (e.button !== 0 || !panning) return;
+      stopPan();
+    });
+
+    // Garante limpeza se o mouse sair da janela com botão pressionado
+    document.addEventListener('mouseleave', () => { if (panning) stopPan(); });
+    window.addEventListener('blur', () => { if (panning) stopPan(); });
+
+    function stopPan() {
       panning = false;
       canvas.style.cursor = 'grab';
-    });
+      canvas.style.userSelect = '';
+    }
 
     /* ── Zoom: scroll do mouse ── */
     canvas.addEventListener('wheel', e => {
@@ -4731,9 +5018,22 @@
     mmInitZoomEvents();
 
     setTimeout(() => {
+      // Auto-fit: calcula o zoom para caber conteúdo + padding no canvas
+      const PAD   = 200;
+      const contentW = (COLS.cap + 340) + PAD * 2;
+      const contentH = CH + PAD * 2;
+      const fitZ = Math.min(
+        canvas.clientWidth  / contentW,
+        canvas.clientHeight / contentH,
+        0.95                              // nunca abrir em mais de 95%
+      );
+      mmZoomLevel = Math.max(MM_ZOOM_MIN, fitZ);
+      mmApplyZoom();
+
+      // Centralizar verticalmente após o zoom
       canvas.scrollLeft = 0;
-      canvas.scrollTop  = Math.max(0, (CH - canvas.clientHeight) / 2);
-    }, 80);
+      canvas.scrollTop  = Math.max(0, (contentH * mmZoomLevel - canvas.clientHeight) / 2);
+    }, 120);
     mm.ready = true;
   }
 
@@ -5030,7 +5330,51 @@
   let podPreviewTimer  = null;
   let podActivePreview = null; // botão com prévia ativa
 
-  /* ── Seleção de voz ──────────────────────────────────────── */
+  /* ── Tabs e novos controles do podcast ───────────────────────── */
+  function podSwitchTab(tab) {
+    ['chars','music'].forEach(t => {
+      document.getElementById('pod-tab-'+t)?.classList.toggle('active', t===tab);
+      document.getElementById('pod-panel-'+t)?.classList.toggle('hidden', t!==tab);
+    });
+  }
+
+  function podVoiceChange(role, value) {
+    // Atualizar estado interno (podSelectedVoice usa apenas host por ora)
+    if (role === 'host') podSelectedVoice = value;
+  }
+
+  function podPreviewSelect(role) {
+    const audio = document.getElementById('pod-audio');
+    const selId = role === 'host' ? 'pod-host-select' : 'pod-guest-select';
+    const voice = document.getElementById(selId)?.value || 'alloy';
+    const startMap = { alloy:0, ash:15, coral:30, echo:50, fable:65, nova:80, onyx:90, shimmer:100 };
+    podStopPreview();
+    audio.currentTime = startMap[voice] || 0;
+    audio.playbackRate = 1;
+    audio.play();
+    podPreviewTimer = setTimeout(() => podStopPreview(), 8000);
+  }
+
+  function podToggleMusic(track) {
+    const btn = document.getElementById('pod-add-'+track);
+    const chk = document.getElementById('pod-skip-'+track);
+    if (!btn) return;
+    const isAdded = !btn.classList.contains('inactive');
+    btn.classList.toggle('inactive', isAdded);
+    btn.innerHTML = isAdded
+      ? '<span class="material-symbols-rounded">add</span> Adicionar'
+      : '<span class="material-symbols-rounded">check</span> Adicionado';
+    if (chk) chk.checked = isAdded;
+  }
+
+  function podPreviewMusic(track) {
+    const audio = document.getElementById('pod-audio');
+    audio.currentTime = 0;
+    audio.play();
+    setTimeout(() => audio.pause(), 5000);
+  }
+
+  /* ── Seleção de voz (legado — mantido para compatibilidade) ── */
   function podSelectVoice(voiceId) {
     podSelectedVoice = voiceId;
     // Remover seleção de todos os cards
@@ -5443,7 +5787,12 @@
         if (chk) chk.style.display = isActive ? '' : 'none';
       });
       const targetView = view && document.getElementById('view-' + view) ? view : p.homeView;
-      go(targetView);
+      // Se veio do login como estudante → abrir onboarding do passo 1
+      if (location.hash.includes('from=login') && role === 'estudante') {
+        goOnboarding();
+      } else {
+        go(targetView);
+      }
     }
   })();
 </script>
