@@ -110,7 +110,7 @@
     /* ================================================================
        APP SHELL
     ================================================================ */
-    .app { display: flex; height: 100vh; overflow: hidden; width: 100%; }
+    .app { display: flex; height: 100vh; overflow: hidden; width: 100%; max-width: 1600px; margin: 0 auto; }
 
     /* ================================================================
        SIDEBAR (Menu node 8153:63419)
@@ -306,7 +306,7 @@
     .card-hdr-action:hover { opacity: .75; }
 
     /* Home grid 3:2 */
-    .hgrid { display: grid; grid-template-columns: 3fr 2fr; gap: var(--sp-md); align-items: start; }
+    .hgrid { display: grid; grid-template-columns: minmax(0,3fr) minmax(0,2fr); gap: var(--sp-md); align-items: start; }
     .col   { display: flex; flex-direction: column; gap: var(--sp-md); }
 
     /* Progress bar */
@@ -916,7 +916,7 @@
     .ob-radio-item.sel .ob-radio-chk .material-symbols-rounded { color: var(--c-primary); }
 
     /* ── Step 3: Days + slider */
-    .ob-days-lbl { font-size: 13px; font-weight: 600; color: var(--c-text); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+    .ob-days-lbl { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--c-text-muted); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
     .ob-days-pill { padding: 2px 10px; background: var(--c-primary-bg); color: var(--c-primary); border-radius: var(--r-full); font-size: 11px; font-weight: 700; }
     .ob-days-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; margin-bottom: 20px; max-width: 420px; }
     .ob-day-btn { padding: 10px 2px; border: 1.5px solid var(--c-border); border-radius: var(--r-xs); background: white; font-size: 10px; font-weight: 700; color: var(--c-text-muted); cursor: pointer; text-align: center; transition: all .12s; }
