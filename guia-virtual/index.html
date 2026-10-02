@@ -878,8 +878,7 @@
     .ob-err { font-size: 12px; color: #f59e0b; font-weight: 500; margin-top: 10px; display: none; }
     .ob-err.show { display: block; }
 
-    /* Footer — fora do ob-card, preenche largura total. padding-right evita sobrepor o FAB */
-    .ob-footer { display: flex; justify-content: space-between; align-items: center; padding: 16px 80px 16px 48px; border-top: 1px solid var(--c-border); background: white; flex-shrink: 0; }
+    .ob-footer { display: flex; justify-content: space-between; align-items: center; padding: 16px var(--sp-xl); border-top: 1px solid var(--c-border); background: white; flex-shrink: 0; }
     .ob-btn-back { background: transparent; border: none; font-size: 14px; color: var(--c-text-muted); cursor: pointer; padding: 10px 16px; border-radius: var(--r-sm); transition: background .12s; }
     .ob-btn-back:hover { background: var(--c-group-bg); }
     .ob-btn-back:disabled { opacity: .35; cursor: not-allowed; }
@@ -956,7 +955,7 @@
 
     /* FAB button (Float btn DS component) */
     .chat-fab {
-      position: fixed; bottom: 28px; right: 28px; z-index: 300;
+      position: fixed; bottom: 96px; right: 28px; z-index: 300;
       width: 56px; height: 56px; border-radius: var(--r-full);
       background: var(--c-primary); border: none; color: white;
       display: flex; align-items: center; justify-content: center;
@@ -1252,7 +1251,7 @@
     .ss-footer {
       position: sticky; bottom: 0; background: white;
       border-top: 1px solid var(--c-border);
-      padding: 14px 48px; display: flex; justify-content: space-between; align-items: center;
+      padding: 14px var(--sp-xl); display: flex; justify-content: space-between; align-items: center;
       flex-shrink: 0;
     }
     .ss-timer { font-size: 13px; color: var(--c-text-muted); display: flex; align-items: center; gap: 6px; }
@@ -1346,6 +1345,32 @@
     .qz-alt.wrong   .qz-alt-letter { background: var(--c-danger);  color: white; border-color: var(--c-danger); }
     .qz-alt-text { font-size: 13.5px; color: var(--c-text); line-height: 1.45; padding-top: 2px; }
 
+    /* Referências bibliográficas no feedback */
+    .qz-refs { margin: 8px 16px 12px; }
+    .qz-refs-lbl {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 10.5px; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--c-text-muted); margin-bottom: 7px;
+    }
+    .qz-refs-lbl .material-symbols-rounded { font-size: 14px; }
+    .qz-refs-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .qz-ref-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border: 1px solid var(--c-border);
+      border-radius: var(--r-full); background: transparent;
+      font-size: 11.5px; color: var(--c-text-muted); white-space: nowrap;
+      cursor: pointer; font-family: var(--font); transition: border-color .15s, color .15s;
+    }
+    .qz-ref-chip:hover { border-color: var(--c-primary); color: var(--c-primary); }
+    .qz-ref-chip:hover .qz-ref-pag { color: var(--c-primary); }
+    .qz-ref-pag { font-weight: 700; color: var(--c-text-muted); font-size: 11.5px; }
+    .qz-ref-open { font-size: 13px !important; opacity: .6; }
+    .qz-ref-pag {
+      font-size: 10px; font-weight: 700; color: white;
+      background: var(--c-text-muted); padding: 1px 5px;
+      border-radius: 4px; flex-shrink: 0;
+    }
+
     /* Justification */
     .qz-just {
       display: flex; align-items: flex-start; gap: 10px;
@@ -1362,7 +1387,7 @@
     .qz-result-label { font-size: 14px; color: var(--c-text-muted); margin-top: 6px; }
 
     /* Footer */
-    .qz-footer { position: sticky; bottom: 0; background: white; border-top: 1px solid var(--c-border); padding: 14px 48px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .qz-footer { position: sticky; bottom: 0; background: white; border-top: 1px solid var(--c-border); padding: 14px var(--sp-xl); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
     /* ── Popup de seleção de texto (contextual) */
     .ss-sel-popup {
       position: fixed; z-index: 400;
@@ -1751,18 +1776,23 @@
       /* Detalhe turma modal */
       #dt-overlay .study-dialog { max-width: 100% !important; border-radius: 20px 20px 0 0; }
 
-      /* Chat FAB: ajustar margem para não sobrepor bottom nav */
-      .chat-fab { bottom: 74px; }
+      /* Chat FAB: acima do bottom nav + barras de ação */
+      .chat-fab { bottom: 136px; right: 16px; }
 
-      /* Zoom bar no mapa */
+      /* Zoom bar no mapa: acima do bottom nav */
       .mm-zoom-bar { bottom: 74px; right: 12px; }
 
       /* Topbar: compactar user pill */
       .tb-user-info .tb-user-role { display: none; }
 
-      /* Sessão de estudo: guia vira collapsado */
-      .ss-guide { display: none; }
-      .ss-main-area { grid-template-columns: 1fr !important; }
+      #view-study.active { height: calc(100vh - 54px - 62px); }
+      .ss-inner   { padding: 16px 16px 100px; max-width: 100% !important; }
+      .ss-time-grid { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+      .ss-sel-popup { flex-wrap: wrap; gap: 4px; padding: 8px; }
+      .ss-footer { padding: 10px 16px 10px 72px; gap: 8px; }
+      .ss-guide { display: none !important; }
+      #ss-state-content.active { grid-template-columns: 1fr !important; gap: 0 !important; }
+      .ss-scroll:has(#ss-state-content.active) .ss-inner { padding-right: 16px; }
 
     }
 
@@ -1776,7 +1806,7 @@
 
   <!-- SIDEBAR -->
   <aside class="sidebar" aria-label="Navegação principal">
-    <div class="sb-logo">
+    <div class="sb-logo" onclick="go(PROFILES[currentRole]?.homeView || 'home')" style="cursor:pointer" title="Ir para o início">
       <span class="sb-logo-text">guia virtual <span class="acc">senai</span></span>
     </div>
     <div class="sb-group" id="sb-nav-estudante">
@@ -2398,7 +2428,7 @@
 
             <!-- STATE 1: Seleção de tempo -->
             <div class="ss-state active" id="ss-state-time">
-              <button type="button" class="ss-back" onclick="go(''home'')">
+              <button type="button" class="ss-back" onclick="goBack()">
                 <span class="material-symbols-rounded">arrow_back</span>Voltar
               </button>
               <h2 class="ss-time-title">Quanto tempo você tem?</h2>
@@ -2576,7 +2606,6 @@
           </button>
           <!-- botões de conteúdo (só no step content) -->
           <div id="ss-footer-content" style="display:none;gap:8px;align-items:center">
-            <div class="ss-timer"><span class="material-symbols-rounded">schedule</span>Sessão: <strong id="ss-timer-display">00:00</strong></div>
             <button type="button" class="ob-cancel" onclick="ssEndSession()">Encerrar sessão</button>
             <button type="button" class="btn-sm" onclick="ssReset()">Nova Sessão</button>
           </div>
@@ -3258,7 +3287,7 @@
 
       <!-- STATE: config -->
       <div class="ss-state active" id="pod-state-config">
-        <button type="button" class="pod-back" onclick="go('home')">
+        <button type="button" class="pod-back" onclick="goBack()">
           <span class="material-symbols-rounded">arrow_back</span>Voltar
         </button>
 
@@ -3675,7 +3704,18 @@
     document.getElementById('tb-user-pill')?.classList.remove('open');
   }
 
+  let prevView = 'home'; // view anterior — usada pelos botões "Voltar" das atividades
+
   function go(view) {
+    // Guardar de onde viemos (exceto trocas de perfil/onboarding/internas)
+    const currentActive = document.querySelector('.view.active');
+    const currentId = currentActive?.id?.replace('view-','');
+    const ACTIVITY_VIEWS = ['study','quiz','podcast','onboarding','profile','profile-docente'];
+    const FROM_VIEWS = ['home','map','home-docente','turmas-docente'];
+    if (currentId && FROM_VIEWS.includes(currentId) && ACTIVITY_VIEWS.includes(view)) {
+      prevView = currentId;
+    }
+
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.sb-item').forEach(n => n.classList.remove('active'));
     // Sincronizar bottom nav mobile
@@ -3692,6 +3732,10 @@
     // Persistir estado na URL (sem disparar popstate)
     const hash = `#${currentRole}/${view}`;
     if (location.hash !== hash) history.replaceState(null, '', hash);
+  }
+
+  function goBack() {
+    go(prevView);
   }
 
   function pickTime(btn) {
@@ -4392,6 +4436,9 @@
 
   /* Iniciar sessão a partir do modal do mapa ou de outros pontos de entrada */
   function ssStartSession() {
+    // Guardar de onde viemos antes de mudar de view
+    const cur = document.querySelector('.view.active');
+    if (cur) prevView = cur.id.replace('view-','');
     ssFromMap = true;   // vem do mapa — pula UC e Cap
 
     ssSelUCId   = null;
@@ -4431,11 +4478,11 @@
      ESTUDAR COM EXERCÍCIOS — StudyExercises.vue
   ================================================================ */
   const QZ_MOCK_Q = [
-    { q: 'O desgaste abrasivo em sistemas mecânicos é principalmente causado por:', alts: ['Excesso de lubrificante no sistema','Atrito entre superfícies sem lubrificação adequada','Temperatura ambiente muito baixa','Corrente elétrica parasita nos rolamentos'], correct: 1, just: 'O desgaste abrasivo ocorre quando há atrito direto entre superfícies metálicas sem a devida película lubrificante, causando remoção progressiva de material.' },
-    { q: 'A termografia infravermelha aplicada a sistemas mecânicos identifica principalmente:', alts: ['Partículas metálicas no óleo lubricante','Desbalanceamento de componentes giratórios','Pontos quentes gerados por atrito excessivo','Trincas internas em materiais metálicos'], correct: 2, just: 'A termografia detecta variações de temperatura superficial. Pontos quentes indicam atrito excessivo por falta de lubrificação ou desalinhamento.' },
-    { q: 'Qual a principal diferença entre manutenção preventiva e preditiva?', alts: ['A preventiva é sempre mais cara','A preventiva substitui por ciclo fixo; a preditiva substitui pela condição real do componente','A preditiva é realizada após a falha','A preventiva exige sensores especializados'], correct: 1, just: 'A manutenção preventiva segue um cronograma fixo, enquanto a preditiva monitora indicadores reais e intervém apenas quando atingem o limite crítico.' },
-    { q: 'O índice RPN na metodologia FMEA é calculado por:', alts: ['Severidade + Ocorrência + Detecção','Probabilidade × Impacto × Custo','Severidade × Ocorrência × Detecção','Frequência × Severidade ÷ Detecção'], correct: 2, just: 'RPN = Severidade × Ocorrência × Detecção. Cada fator é avaliado de 1 a 10. RPN > 100 exige ação preventiva imediata.' },
-    { q: 'Em análise de vibração, um pico espectral em 2× RPM tipicamente indica:', alts: ['Desbalanceamento rotativo','Falha de rolamento interno','Desalinhamento entre eixo e acoplamento','Folga mecânica excessiva'], correct: 2, just: 'Desalinhamento gera forças em harmônicos da rotação. O pico em 2× RPM é característica clássica de desalinhamento angular ou paralelo.' }
+    { q: 'O desgaste abrasivo em sistemas mecânicos é principalmente causado por:', alts: ['Excesso de lubrificante no sistema','Atrito entre superfícies sem lubrificação adequada','Temperatura ambiente muito baixa','Corrente elétrica parasita nos rolamentos'], correct: 1, just: 'O desgaste abrasivo ocorre quando há atrito direto entre superfícies metálicas sem a devida película lubrificante, causando remoção progressiva de material.', refs: [{pag:'119',doc:'Processos de Fabricação Mecânica'},{pag:'70',doc:'Manutenção Industrial — SENAI'}] },
+    { q: 'A termografia infravermelha aplicada a sistemas mecânicos identifica principalmente:', alts: ['Partículas metálicas no óleo lubricante','Desbalanceamento de componentes giratórios','Pontos quentes gerados por atrito excessivo','Trincas internas em materiais metálicos'], correct: 2, just: 'A termografia detecta variações de temperatura superficial. Pontos quentes indicam atrito excessivo por falta de lubrificação ou desalinhamento.', refs: [{pag:'122',doc:'Processos de Fabricação Mecânica'},{pag:'45',doc:'Técnicas Preditivas — SENAI'}] },
+    { q: 'Qual a principal diferença entre manutenção preventiva e preditiva?', alts: ['A preventiva é sempre mais cara','A preventiva substitui por ciclo fixo; a preditiva substitui pela condição real do componente','A preditiva é realizada após a falha','A preventiva exige sensores especializados'], correct: 1, just: 'A manutenção preventiva segue um cronograma fixo, enquanto a preditiva monitora indicadores reais e intervém apenas quando atingem o limite crítico.', refs: [{pag:'88',doc:'Manutenção Industrial — SENAI'},{pag:'200',doc:'Gestão da Manutenção'}] },
+    { q: 'O índice RPN na metodologia FMEA é calculado por:', alts: ['Severidade + Ocorrência + Detecção','Probabilidade × Impacto × Custo','Severidade × Ocorrência × Detecção','Frequência × Severidade ÷ Detecção'], correct: 2, just: 'RPN = Severidade × Ocorrência × Detecção. Cada fator é avaliado de 1 a 10. RPN > 100 exige ação preventiva imediata.', refs: [{pag:'33',doc:'FMEA — Análise de Falhas (SENAI)'},{pag:'120',doc:'Qualidade Industrial'}] },
+    { q: 'Em análise de vibração, um pico espectral em 2× RPM tipicamente indica:', alts: ['Desbalanceamento rotativo','Falha de rolamento interno','Desalinhamento entre eixo e acoplamento','Folga mecânica excessiva'], correct: 2, just: 'Desalinhamento gera forças em harmônicos da rotação. O pico em 2× RPM é característica clássica de desalinhamento angular ou paralelo.', refs: [{pag:'156',doc:'Análise de Vibração Mecânica'},{pag:'78',doc:'Técnicas Preditivas — SENAI'}] }
   ];
 
   let qzState = 'setup', qzLevel = 'EXPLORE', qzQty = 10, qzAnswers = [], qzValidated = false;
@@ -4514,6 +4561,22 @@
         qzShowQuestion(0);
       }, 1800 + Math.random()*600);
     }
+  }
+
+  function qzOpenRef(doc, pag) {
+    // Em produção, abriria o documento na página correta.
+    // No protótipo abre um toast/alert informativo.
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+      position:fixed; bottom:108px; left:50%; transform:translateX(-50%);
+      background:var(--c-text); color:white; padding:10px 18px;
+      border-radius:99px; font-size:13px; font-family:var(--font);
+      z-index:9999; white-space:nowrap; box-shadow:0 4px 16px rgba(0,0,0,.2);
+      animation:fadein .2s ease;
+    `;
+    toast.textContent = `📖 ${doc} — pág. ${pag}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2800);
   }
 
   function qzShowQuestion(idx) {
@@ -4623,11 +4686,21 @@
       // Feedback por questão
       const fb = document.getElementById('qz-feedback-'+qi);
       if (fb) {
+        const refsHtml = q.refs && q.refs.length
+          ? `<div class="qz-refs">
+              <span class="qz-refs-lbl"><span class="material-symbols-rounded">menu_book</span>Referências bibliográficas</span>
+              <div class="qz-refs-list">${q.refs.map(r =>
+                `<button type="button" class="qz-ref-chip" onclick="qzOpenRef('${r.doc}','${r.pag}')" title="Abrir referência">
+                   <span class="qz-ref-pag">PÁG ${r.pag}</span>${r.doc}
+                   <span class="material-symbols-rounded qz-ref-open">arrow_outward</span>
+                 </button>`
+              ).join('')}</div>
+             </div>` : '';
         fb.style.display = 'block';
         fb.innerHTML = `<div class="qz-just ${ok?'ok':'fail'}">
           <span class="material-symbols-rounded">${ok?'check_circle':'cancel'}</span>
           <span><strong>${ok?'Correto!':'Incorreto.'}</strong> ${q.just}</span>
-        </div>`;
+        </div>${refsHtml}`;
       }
     });
 
@@ -4666,19 +4739,7 @@
     document.getElementById('qz-scroll').scrollTop = 0;
   }
 
-  function qzBack() {
-    if (qzState === 'setup') { go('home'); }
-    else {
-      const list = document.getElementById('qz-questions-list');
-      if (list) list.innerHTML = '';
-      qzValidated = false;
-      qzSetState('setup');
-      const btn = document.getElementById('qz-btn-next');
-      const back = document.getElementById('qz-btn-back');
-      if (btn)  { btn.disabled=false; btn.onclick=qzNext; btn.innerHTML='<span class="material-symbols-rounded" style="font-size:18px">auto_awesome</span>Estou pronto!'; }
-      if (back) back.style.display='flex';
-    }
-  }
+  function qzBack() { goBack(); }
 
   function qzDoReset() {
     const list = document.getElementById('qz-questions-list');
